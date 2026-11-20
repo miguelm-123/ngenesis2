@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://pnovagenesis.netlify.app/ -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=041e4c07-2e7f-4255-a19f-46a588c7fc6d
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta property="og:image" content="https://pnovagenesis.netlify.app/.netlify/og-image/a0968b6b16291f68c728e2b69c7af3f1.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA GENESIS // Planetary Analogue Mission Planner — NASA Space Apps Challenge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link rel="preconnect" href="https://cdn.jsdelivr.net/" crossorigin="">
+<link href="./novagenesis 2.0_files/css2" rel="stylesheet">
+<script src="./novagenesis 2.0_files/three.min.js.download"></script>
+<script src="./novagenesis 2.0_files/OrbitControls.js.download"></script>
+<script src="./novagenesis 2.0_files/gsap.min.js.download"></script>
+<script src="./novagenesis 2.0_files/chart.umd.min.js.download"></script>
+<style>
+:root{--bg:#020810;--glass:rgba(4,10,24,.50);--glass2:rgba(4,10,24,.72);--gh:rgba(8,18,40,.62);--gb:rgba(0,200,255,.10);--gbh:rgba(0,200,255,.25);--cyan:#00e5ff;--teal:#00ffa3;--amber:#ffb703;--red:#ff2d55;--purple:#a855f7;--blue:#3b82f6;--white:#f0f4ff;--muted:#7b8faa;--dim:#3a4a60;--fd:'Orbitron',sans-serif;--fb:'Chakra Petch',sans-serif;--fm:'JetBrains Mono',monospace;--blur:blur(28px);--r:14px;--e:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;overflow:hidden;font-family:var(--fb);background:var(--bg);color:var(--white)}
+::selection{background:rgba(0,229,255,.25)}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(0,229,255,.18);border-radius:4px}
+#loader{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);transition:opacity .8s var(--e),visibility .8s}
+#loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+#loader h1{font-family:var(--fd);font-size:2.2rem;font-weight:900;letter-spacing:6px;color:var(--cyan);text-shadow:0 0 40px rgba(0,229,255,.5);margin-bottom:8px;animation:ptx 2s ease-in-out infinite}
+#loader p{font-size:.78rem;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
+.lb{width:260px;height:3px;background:rgba(0,229,255,.06);border-radius:2px;overflow:hidden}.lbf{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--teal));border-radius:2px;transition:width .3s var(--e)}
+@keyframes ptx{0%,100%{opacity:1}50%{opacity:.55}}
+#app{display:grid;grid-template-rows:48px 1fr 28px;height:100vh;opacity:0;transition:opacity .6s var(--e)}#app.visible{opacity:1}
+header{display:flex;align-items:center;padding:0 14px;background:var(--glass2);backdrop-filter:var(--blur);border-bottom:1px solid var(--gb);z-index:100;gap:10px}
+.logo{display:flex;align-items:center;gap:7px}
+.lr{width:24px;height:24px;border-radius:50%;background:conic-gradient(from 0deg,var(--cyan),var(--teal),var(--cyan));animation:sp 8s linear infinite;display:flex;align-items:center;justify-content:center}.lr::after{content:'';width:11px;height:11px;border-radius:50%;background:var(--bg)}
+@keyframes sp{to{transform:rotate(360deg)}}
+.lt{font-family:var(--fd);font-size:.82rem;font-weight:800;letter-spacing:4px;background:linear-gradient(135deg,var(--cyan),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.ls{font-size:.45rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase}
+.tabs{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+.tb{padding:4px 11px;border-radius:6px;border:1px solid transparent;background:transparent;color:var(--muted);font-family:var(--fb);font-size:.62rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;transition:all .22s var(--e);white-space:nowrap}
+.tb:hover{color:var(--white);border-color:var(--gbh);background:var(--glass)}
+.tb.active{color:var(--cyan);border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.06);text-shadow:0 0 10px rgba(0,229,255,.3)}
+.ha{display:flex;gap:5px;align-items:center;margin-left:6px}
+.hb{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:6px;border:1px solid var(--gb);background:var(--glass);color:var(--muted);font-family:var(--fb);font-size:.6rem;font-weight:500;cursor:pointer;transition:all .22s var(--e);white-space:nowrap}.hb:hover{color:var(--white);border-color:var(--gbh)}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--dim)}.dot.on{background:var(--teal);box-shadow:0 0 6px var(--teal)}
+.utc{font-family:var(--fm);font-size:.62rem;color:var(--cyan);letter-spacing:1px;white-space:nowrap}
+.tp{display:none;height:100%;overflow:hidden}.tp.active{display:flex}
+#pe.active{display:grid;grid-template-columns:260px 1fr 300px}
+.sp{background:var(--glass);backdrop-filter:var(--blur);display:flex;flex-direction:column;overflow:hidden;z-index:50}
+.sp.l{border-right:1px solid var(--gb)}.sp.r{border-left:1px solid var(--gb);overflow-y:auto;padding:8px;gap:5px}
+.ph{padding:10px 12px 7px;border-bottom:1px solid var(--gb)}
+.pt{font-family:var(--fd);font-size:.52rem;font-weight:700;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:5px}.pt::before{content:'';width:7px;height:2px;background:var(--cyan)}
+.sb{width:100%;padding:5px 9px;border-radius:6px;border:1px solid var(--gb);background:rgba(0,0,0,.3);color:var(--white);font-family:var(--fb);font-size:.7rem;outline:none;transition:border-color .2s}.sb:focus{border-color:rgba(0,229,255,.4)}.sb::placeholder{color:var(--dim)}
+.sl{flex:1;overflow-y:auto;padding:5px 7px}
+.sc{display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:8px;border:1px solid transparent;cursor:pointer;transition:all .2s var(--e);margin-bottom:2px;position:relative}
+.sc:hover{background:rgba(0,229,255,.04);border-color:var(--gb)}.sc.active{background:rgba(0,229,255,.07);border-color:rgba(0,229,255,.3)}.sc.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:2px;background:var(--cyan);border-radius:2px}
+.sd{width:6px;height:6px;border-radius:50%;flex-shrink:0;box-shadow:0 0 5px currentColor}.sd.mars{color:var(--cyan);background:var(--cyan)}.sd.moon{color:var(--amber);background:var(--amber)}
+.sn{font-size:.68rem;font-weight:600;line-height:1.2}.scn{font-size:.52rem;color:var(--muted)}.stg{font-size:.46rem;font-family:var(--fm);color:var(--dim);letter-spacing:1px;margin-left:auto;text-transform:uppercase}
+#vp{position:relative;overflow:hidden;background:var(--bg);width:100%;height:100%}
+#gc{width:100%;height:100%;display:block}
+.chud{position:absolute;top:10px;left:10px;font-family:var(--fm);font-size:.55rem;color:var(--muted);letter-spacing:1px;background:var(--glass);backdrop-filter:blur(12px);padding:4px 9px;border-radius:6px;border:1px solid var(--gb);z-index:20}
+.zc{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:3px;z-index:20}
+.zb{width:26px;height:26px;border-radius:6px;border:1px solid var(--gb);background:var(--glass);backdrop-filter:blur(12px);color:var(--muted);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}.zb:hover{color:var(--cyan);border-color:rgba(0,229,255,.3)}
+.lyb{position:absolute;bottom:10px;left:10px;display:flex;gap:4px;z-index:20}
+.lb2{padding:3px 9px;border-radius:6px;border:1px solid var(--gb);background:var(--glass);backdrop-filter:blur(12px);color:var(--muted);font-family:var(--fb);font-size:.55rem;font-weight:600;cursor:pointer;transition:all .2s}.lb2:hover,.lb2.active{color:var(--cyan);border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.06)}
+.hbg{position:absolute;bottom:10px;right:10px;background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--gb);border-radius:10px;padding:8px 12px;z-index:20;text-align:center;min-width:110px;display:none}.hbg.show{display:block}
+.hs{font-family:var(--fm);font-size:1.5rem;font-weight:700;line-height:1}.hl{font-size:.5rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:1px}
+.afi-mini{display:flex;flex-direction:column;gap:2px;margin-top:5px}
+.afi-row{display:flex;align-items:center;gap:4px;font-size:.48rem}.afi-lbl{width:42px;color:var(--dim);text-align:right}.afi-bar{flex:1;height:2px;background:rgba(255,255,255,.04);border-radius:1px;overflow:hidden}.afi-fill{height:100%;border-radius:1px;transition:width .6s var(--e)}
+.ts{background:rgba(0,0,0,.15);border:1px solid var(--gb);border-radius:var(--r);padding:10px;transition:border-color .3s}.ts:hover{border-color:var(--gbh)}
+.tt{font-family:var(--fd);font-size:.48rem;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:4px}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.tc{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.03);border-radius:8px;padding:7px;text-align:center}
+.tv{font-family:var(--fm);font-size:1.05rem;font-weight:600;line-height:1;margin-bottom:2px;transition:color .3s}.tu{font-size:.45rem;color:var(--dim);letter-spacing:1px;text-transform:uppercase}.tl{font-size:.5rem;color:var(--muted);margin-top:1px}
+.sin{font-family:var(--fd);font-size:.72rem;font-weight:800;letter-spacing:2px;text-align:center}.sis{font-size:.58rem;color:var(--muted);text-align:center;margin-top:1px}
+.eqb{display:inline-block;padding:2px 7px;border-radius:4px;font-size:.5rem;font-weight:600;letter-spacing:1px;margin-top:3px}
+.eqb.mars{background:rgba(0,229,255,.1);color:var(--cyan);border:1px solid rgba(0,229,255,.2)}.eqb.moon{background:rgba(255,183,3,.1);color:var(--amber);border:1px solid rgba(255,183,3,.2)}
+#rw{width:100%;height:190px;position:relative}#rc{width:100%!important;height:100%!important}
+.mb{display:flex;align-items:center;gap:5px;margin-bottom:4px}.mn{font-size:.55rem;color:var(--muted);width:60px;text-align:right;flex-shrink:0}.mt{flex:1;height:3px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden}.mf{height:100%;border-radius:2px;transition:width .8s var(--e)}.mp{font-family:var(--fm);font-size:.5rem;color:var(--dim);width:26px}
+.eqt{font-size:.6rem;color:var(--muted);line-height:1.5;padding:5px 0;border-top:1px solid var(--gb);margin-top:3px;font-style:italic}
+.ds{overflow-y:auto;padding:14px 18px;width:100%}
+.dh{margin-bottom:14px}.dh h2{font-family:var(--fd);font-size:.82rem;font-weight:800;letter-spacing:4px;color:var(--cyan);text-transform:uppercase}.dh p{font-size:.68rem;color:var(--muted);margin-top:3px}
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.dc{background:var(--glass);backdrop-filter:var(--blur);border:1px solid var(--gb);border-radius:var(--r);padding:14px;transition:border-color .3s}.dc:hover{border-color:var(--gbh)}
+.dc.s2{grid-column:span 2}.dc.s3{grid-column:span 3}
+.dc h3{font-family:var(--fd);font-size:.5rem;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:5px}.dc h3::before{content:'';width:5px;height:2px;background:var(--cyan)}
+.sr{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.sr label{width:130px;font-size:.64rem;color:var(--muted);flex-shrink:0}
+.sr input[type=range]{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.06);border-radius:2px;outline:none}
+.sr input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--cyan);cursor:pointer;box-shadow:0 0 6px rgba(0,229,255,.4)}
+.sv{width:60px;font-family:var(--fm);font-size:.68rem;color:var(--cyan);text-align:right;flex-shrink:0}
+.gw{display:flex;justify-content:center;align-items:center;padding:8px 0}
+.gg{width:120px;height:120px}
+.gt{fill:none;stroke:rgba(255,255,255,.04);stroke-width:8}.gf{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .8s var(--e)}
+.gv{font-family:var(--fm);font-size:1.3rem;font-weight:700;fill:var(--white)}.gu{font-family:var(--fb);font-size:.45rem;fill:var(--muted);letter-spacing:1px}
+.mr{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.me{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.03);border-radius:8px;padding:8px;text-align:center}
+.me .v{font-family:var(--fm);font-size:1rem;font-weight:600;line-height:1;margin-bottom:2px}.me .u{font-size:.43rem;color:var(--dim);letter-spacing:1px;text-transform:uppercase}.me .l{font-size:.5rem;color:var(--muted);margin-top:1px}
+.ai{width:100%;border-radius:8px;margin-top:6px;max-height:260px;object-fit:cover}
+.el{max-height:220px;overflow-y:auto}
+.ei{padding:6px 8px;border-bottom:1px solid var(--gb);display:flex;align-items:center;gap:6px}
+.ed{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.et{font-size:.66rem;font-weight:600}.edt{font-size:.52rem;color:var(--dim)}
+.nr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.62rem}
+.nn{color:var(--white);font-weight:600;flex:1}.nd{color:var(--muted);font-family:var(--fm);width:50px;text-align:center}.ns{color:var(--amber);font-family:var(--fm);width:40px;text-align:right}
+.samp-tbl{width:100%;font-size:.62rem;border-collapse:collapse}.samp-tbl th{text-align:left;color:var(--muted);font-weight:600;padding:4px 6px;border-bottom:1px solid var(--gb);font-size:.5rem;text-transform:uppercase;letter-spacing:1px}.samp-tbl td{padding:4px 6px;border-bottom:1px solid rgba(255,255,255,.02)}.samp-pri{font-family:var(--fm);font-weight:700}
+footer{display:flex;align-items:center;padding:0 12px;gap:10px;background:var(--glass2);backdrop-filter:var(--blur);border-top:1px solid var(--gb);font-size:.5rem;z-index:100}
+.si{display:flex;align-items:center;gap:3px;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+.sd2{width:4px;height:4px;border-radius:50%}.sd2.ok{background:var(--teal);box-shadow:0 0 5px var(--teal)}.sd2.off{background:var(--dim)}.sd2.warn{background:var(--amber)}
+.fs{width:1px;height:10px;background:var(--gb)}.fc{margin-left:auto;font-family:var(--fm);color:var(--muted);letter-spacing:1px}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .3s var(--e)}.mo.open{opacity:1;visibility:visible}
+.mx{background:rgba(8,14,30,.92);backdrop-filter:blur(30px);border:1px solid var(--gb);border-radius:14px;padding:22px 26px;width:380px;max-width:92vw;transform:translateY(14px);transition:transform .3s var(--e)}.mo.open .mx{transform:translateY(0)}
+.mx h2{font-family:var(--fd);font-size:.7rem;font-weight:800;letter-spacing:4px;color:var(--cyan);margin-bottom:14px;text-align:center}
+.mff{margin-bottom:12px}.mff label{display:block;font-size:.55rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;font-weight:600}
+.mff input{width:100%;padding:7px 10px;border-radius:8px;border:1px solid var(--gb);background:rgba(0,0,0,.4);color:var(--white);font-family:var(--fm);font-size:.72rem;outline:none;transition:border-color .2s}.mff input:focus{border-color:rgba(0,229,255,.4)}
+.mff small{display:block;margin-top:2px;font-size:.5rem;color:var(--dim)}.mff small a{color:var(--cyan);text-decoration:none}
+.ma{display:flex;gap:7px;margin-top:14px}
+.bp{flex:1;padding:8px;border-radius:8px;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.1);color:var(--cyan);font-family:var(--fb);font-size:.68rem;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .2s}.bp:hover{background:rgba(0,229,255,.18)}
+.bg{flex:.5;padding:8px;border-radius:8px;border:1px solid var(--gb);background:transparent;color:var(--muted);font-family:var(--fb);font-size:.68rem;cursor:pointer;transition:all .2s}.bg:hover{color:var(--white)}
+#cw{position:fixed;bottom:44px;right:14px;width:340px;height:400px;background:var(--glass2);backdrop-filter:var(--blur);border:1px solid var(--gb);border-radius:12px;z-index:200;display:flex;flex-direction:column;transform:translateY(14px) scale(.96);opacity:0;visibility:hidden;transition:all .3s var(--e);overflow:hidden}#cw.open{transform:translateY(0) scale(1);opacity:1;visibility:visible}
+.ch{padding:8px 12px;border-bottom:1px solid var(--gb);display:flex;align-items:center;gap:5px}
+.ad{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);animation:pd 2s infinite}@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.ch span{font-family:var(--fd);font-size:.5rem;font-weight:700;letter-spacing:3px;color:var(--teal)}
+.cx{margin-left:auto;background:none;border:none;color:var(--dim);cursor:pointer;font-size:.85rem;padding:2px}.cx:hover{color:var(--white)}
+.cms{flex:1;overflow-y:auto;padding:8px 10px;display:flex;flex-direction:column;gap:7px}
+.cm{max-width:88%;padding:7px 10px;border-radius:9px;font-size:.68rem;line-height:1.5}
+.cm.ai{background:rgba(0,255,163,.06);border:1px solid rgba(0,255,163,.1);align-self:flex-start}
+.cm.user{background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.1);align-self:flex-end}
+.ciw{padding:7px 9px;border-top:1px solid var(--gb);display:flex;gap:5px}
+.ci{flex:1;padding:6px 9px;border-radius:8px;border:1px solid var(--gb);background:rgba(0,0,0,.3);color:var(--white);font-family:var(--fb);font-size:.7rem;outline:none}.ci:focus{border-color:rgba(0,229,255,.3)}
+.cs{width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,255,163,.2);background:rgba(0,255,163,.08);color:var(--teal);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}.cs:hover{background:rgba(0,255,163,.15)}
+.cf{position:fixed;bottom:50px;right:18px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(0,255,163,.25);background:var(--glass);backdrop-filter:blur(12px);color:var(--teal);font-size:1rem;cursor:pointer;z-index:200;display:flex;align-items:center;justify-content:center;transition:all .3s var(--e);box-shadow:0 0 14px rgba(0,255,163,.1)}.cf:hover{transform:scale(1.1)}.cf.hid{opacity:0;pointer-events:none;transform:scale(.8)}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:9998;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.012) 2px,rgba(0,0,0,.012) 4px);opacity:.4}
+.vig{position:fixed;inset:0;pointer-events:none;z-index:9997;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.4))}
+.pwrbtn{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:4px 10px;border-radius:6px;border:1px solid var(--gb);background:rgba(0,229,255,.04);color:var(--cyan);font-family:var(--fb);font-size:.58rem;cursor:pointer;transition:all .2s}.pwrbtn:hover{background:rgba(0,229,255,.1);border-color:var(--gbh)}
+
+.mobile-toggle-btn{display:none;align-items:center;justify-content:center;padding:4px 8px;border-radius:6px;border:1px solid var(--gb);background:var(--glass);color:var(--cyan);font-size:.6rem;cursor:pointer;font-family:var(--fb);font-weight:600;white-space:nowrap}
+@media(max-width:1100px){
+  #pe.active{grid-template-columns:1fr}
+  .sp.l{position:absolute;top:48px;left:0;bottom:28px;width:280px;z-index:150;transform:translateX(-100%);transition:transform .3s var(--e)}
+  .sp.l.mobile-open{transform:translateX(0)}
+  .sp.r{position:absolute;top:48px;right:0;bottom:28px;width:300px;z-index:150;transform:translateX(100%);transition:transform .3s var(--e)}
+  .sp.r.mobile-open{transform:translateX(0)}
+  .mobile-toggle-btn{display:inline-flex}
+  .dc.s2,.dc.s3{grid-column:span 1}
+}
+</style>
+</head>
+<body>
+<div id="loader" class="hidden"><h1>NOVA GENESIS</h1><p>Inicializando sistemas planetarios…</p><div class="lb"><div class="lbf" id="loadBar" style="width: 100%;"></div></div></div>
+<div class="scan"></div><div class="vig"></div>
+
+<div id="app" class="visible">
+<header>
+  <button class="mobile-toggle-btn" id="toggleCatalogBtn">📂 Sitios</button>
+  <div class="logo"><div class="lr"></div><div><div class="lt">NOVA GENESIS</div><div class="ls">Planetary Mission Planner</div></div></div>
+  <div class="tabs">
+    <button class="tb" data-tab="e">🌍 Explorar</button>
+    <button class="tb active" data-tab="r">🤖 Rover</button>
+    <button class="tb" data-tab="c">👨‍🚀 Tripulación</button>
+    <button class="tb" data-tab="m">🎯 Misión</button>
+    <button class="tb" data-tab="n">🛰️ NASA Live</button>
+  </div>
+  <div class="ha">
+    <button class="hb" id="bDisc">🛰️ Descubrimiento</button>
+    <button class="hb" id="bk">🔑 API Keys <span class="dot on" id="dk"></span></button>
+    <button class="hb" id="bx">📤 Exportar</button>
+    <button class="hb" id="bLang" title="Cambiar idioma / Switch language" aria-label="Cambiar idioma / Switch language">🌐 <span id="bLangT">EN</span></button>
+    <button class="mobile-toggle-btn" id="toggleStatsBtn">📊 Info</button>
+    <span class="utc" id="clk">23:12:39 PYT</span>
+  </div>
+</header>
+
+<!-- ═══ EXPLORE TAB ═══ -->
+<div class="tp" id="pe">
+  <div class="sp l" id="catalogPanel">
+    <div class="ph">
+      <div class="pt">Catálogo de Análogos</div>
+      <input class="sb" placeholder="Buscar…" id="sinp">
+      <button class="pwrbtn" id="btnAutoScan" style="width:100%;justify-content:center;margin-top:6px" onclick="openDiscoveryModal()">✨ Descubrir Nueva Región</button>
+    </div>
+    <div class="sl" id="slist">
+    <div class="sc" data-id="1" onclick="selectSite(1)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Desierto de Atacama</div><div class="scn">Chile</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="2" onclick="selectSite(2)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Isla Devon</div><div class="scn">Canadá</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="3" onclick="selectSite(3)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Río Tinto</div><div class="scn">España</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="4" onclick="selectSite(4)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Valles Secos McMurdo</div><div class="scn">Antártida</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="5" onclick="selectSite(5)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Svalbard</div><div class="scn">Noruega</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="6" onclick="selectSite(6)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Lanzarote</div><div class="scn">Islas Canarias</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="7" onclick="selectSite(7)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Wadi Rum</div><div class="scn">Jordania</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="8" onclick="selectSite(8)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Desierto Mojave</div><div class="scn">EE.UU.</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="9" onclick="selectSite(9)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Pilbara</div><div class="scn">Australia</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc active" data-id="10" onclick="selectSite(10)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Askja &amp; Holuhraun</div><div class="scn">Islandia</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="11" onclick="selectSite(11)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Depresión de Danakil</div><div class="scn">Etiopía</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="12" onclick="selectSite(12)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Ladakh</div><div class="scn">India</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="13" onclick="selectSite(13)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Altiplano Boliviano</div><div class="scn">Bolivia</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="14" onclick="selectSite(14)">
+      <div class="sd mars"></div>
+      <div><div class="sn">Valle de la Muerte</div><div class="scn">EE.UU.</div></div>
+      <div class="stg">♂</div>
+    </div>
+    <div class="sc" data-id="15" onclick="selectSite(15)">
+      <div class="sd moon"></div>
+      <div><div class="sn">Mauna Kea</div><div class="scn">Hawái</div></div>
+      <div class="stg">☽</div>
+    </div>
+    <div class="sc" data-id="16" onclick="selectSite(16)">
+      <div class="sd moon"></div>
+      <div><div class="sn">Cráter Ries</div><div class="scn">Alemania</div></div>
+      <div class="stg">☽</div>
+    </div>
+    <div class="sc" data-id="17" onclick="selectSite(17)">
+      <div class="sd moon"></div>
+      <div><div class="sn">Cráter Lonar</div><div class="scn">India</div></div>
+      <div class="stg">☽</div>
+    </div></div>
+  </div>
+  <div id="vp">
+    <canvas id="gc" width="0" height="0" style="width: 0px; height: 0px;"></canvas>
+    <div class="chud" id="chd">LAT 12.472 · LNG -9.926</div>
+    <div class="zc"><button class="zb" id="zi">+</button><button class="zb" id="zo">−</button><button class="zb" id="zr">⟲</button><button class="zb" id="zp" title="Reanudar rotación" aria-label="Reanudar rotación" style="color: var(--cyan);">▶</button><button class="zb" id="zx" title="Quitar ubicación" aria-label="Quitar ubicación" style="display: flex;">✕</button></div>
+    <div class="lyb"><button class="lb2 active" data-ly="sat">Satélite</button><button class="lb2" data-ly="therm">Térmica</button><button class="lb2" data-ly="topo">Topografía</button></div>
+    <div class="hbg show" id="hbg"><div class="hs" id="hsc" style="color: var(--red);">40</div><div class="hl">Índice Fidelidad</div><div class="afi-mini" id="afiMini"><div class="afi-row"><div class="afi-lbl">Geoq.</div><div class="afi-bar"><div class="afi-fill" style="width:79.5%;background:var(--cyan)"></div></div></div><div class="afi-row"><div class="afi-lbl">Atmos.</div><div class="afi-bar"><div class="afi-fill" style="width:14.426283212664757%;background:var(--purple)"></div></div></div><div class="afi-row"><div class="afi-lbl">Térm.</div><div class="afi-bar"><div class="afi-fill" style="width:29.819727942988738%;background:var(--red)"></div></div></div><div class="afi-row"><div class="afi-lbl">Geom.</div><div class="afi-bar"><div class="afi-fill" style="width:34.44444444444444%;background:var(--teal)"></div></div></div><div class="afi-row"><div class="afi-lbl">Rad.</div><div class="afi-bar"><div class="afi-fill" style="width:22.222222222222218%;background:var(--amber)"></div></div></div><div class="afi-row"><div class="afi-lbl">Hidro.</div><div class="afi-bar"><div class="afi-fill" style="width:35%;background:var(--blue)"></div></div></div></div></div>
+  </div>
+  <div class="sp r" id="statsPanel">
+    <div class="ts" style="text-align:center"><div class="sin" id="sN">Askja &amp; Holuhraun</div><div class="sis" id="sS">Islandia · 65.05°, -16.75°</div><div id="sBg"><span class="eqb mars">♂ ANÁLOGO MARTE</span></div></div>
+    <div class="ts"><div class="tt">🌡️ Telemetría Climática</div><div class="tg">
+      <div class="tc"><div class="tv" id="vT" style="color:var(--red)">-5</div><div class="tu">°C</div><div class="tl">Temperatura</div></div>
+      <div class="tc"><div class="tv" id="vP" style="color:var(--purple)">990</div><div class="tu">hPa</div><div class="tl">Presión</div></div>
+      <div class="tc"><div class="tv" id="vW" style="color:var(--cyan)">60</div><div class="tu">km/h</div><div class="tl">Viento</div></div>
+      <div class="tc"><div class="tv" id="vH" style="color:var(--teal)">65</div><div class="tu">%</div><div class="tl">Humedad</div></div>
+      <div class="tc"><div class="tv" id="vU" style="color:var(--amber)">4</div><div class="tu">idx</div><div class="tl">UV</div></div>
+      <div class="tc"><div class="tv" id="vA" style="color:var(--white)">1100</div><div class="tu">m</div><div class="tl">Altitud</div></div>
+    </div></div>
+    <div class="ts"><div class="tt">📡 Radar Atmosférico</div><div id="rw"><canvas id="rc" width="283" height="209" style="display: block; box-sizing: border-box; height: 190px; width: 257px;"></canvas></div></div>
+    <div class="ts"><div class="tt">🪨 Mineralogía</div><div id="mB"><div class="mb"><div class="mn">Basalto</div><div class="mt"><div class="mf" style="width: 90%; background: var(--cyan);"></div></div><div class="mp">90%</div></div><div class="mb"><div class="mn">Obsidiana</div><div class="mt"><div class="mf" style="width: 55%; background: var(--purple);"></div></div><div class="mp">55%</div></div><div class="mb"><div class="mn">Palagonita</div><div class="mt"><div class="mf" style="width: 70%; background: var(--amber);"></div></div><div class="mp">70%</div></div><div class="mb"><div class="mn">Olivino</div><div class="mt"><div class="mf" style="width: 50%; background: var(--teal);"></div></div><div class="mp">50%</div></div></div></div>
+    <div class="ts" id="eqS" style="display: block;"><div class="tt">🔬 Equivalencia Planetaria</div><div class="eqt" id="eqT">Análogo volcánico-glacial a Elysium Planitia — interacción lava-hielo, palagonita componente del polvo marciano.</div></div>
+    <div class="ts" id="pwrSec" style="display: block;"><div class="tt">☀️ Datos NASA POWER</div><div class="tg" id="pwrGrid"></div><button class="pwrbtn" id="pwrBtn" onclick="fetchPOWER()">📡 Consultar NASA POWER API</button></div>
+  </div>
+</div>
+
+<!-- ═══ ROVER TAB ═══ -->
+<div class="tp active" id="pr2">
+  <div class="ds"><div class="dh"><h2>🤖 Rendimiento de Rover — Simulador de Misión</h2><p>Modelos físicos de travesía, potencia solar, degradación de ruedas y retorno científico para el análogo seleccionado</p></div>
+  <div class="dg">
+    <div class="dc s2"><h3>⚙️ Parámetros del Rover</h3><div id="rSlid"><div class="sr"><label>Masa del Rover</label><input type="range" id="rM" min="100" max="1200" value="900" step="50"><span class="sv" id="rMV">750 kg</span></div><div class="sr"><label>Área Paneles Solares</label><input type="range" id="rS" min="1" max="12" value="4.2" step="0.1"><span class="sv" id="rSV">8.7 m²</span></div><div class="sr"><label>Eficiencia Panel</label><input type="range" id="rE" min="10" max="35" value="28" step="1"><span class="sv" id="rEV">27 %</span></div><div class="sr"><label>Capacidad Batería</label><input type="range" id="rB" min="100" max="2000" value="1100" step="50"><span class="sv" id="rBV">850 Wh</span></div><div class="sr"><label>Opacidad Polvo (τ)</label><input type="range" id="rD" min="0.3" max="4" value="0.8" step="0.1"><span class="sv" id="rDV">0.8 τ</span></div><div class="sr"><label>Horas Conducción/Sol</label><input type="range" id="rH" min="1" max="8" value="4" step="0.5"><span class="sv" id="rHV">4 h</span></div><div class="sr"><label>Latitud Operación</label><input type="range" id="rL" min="0" max="70" value="24" step="1"><span class="sv" id="rLV">24 °</span></div><div class="sr"><label>Dur. Misión Objetivo</label><input type="range" id="rDu" min="30" max="2000" value="668" step="10"><span class="sv" id="rDuV">668 sols</span></div></div></div>
+    <div class="dc"><h3>📊 Resultados Operativos</h3>
+      <div class="mr"><div class="me"><div class="v" id="rmT" style="color:var(--cyan)">0.21</div><div class="u">km/sol</div><div class="l">Travesía</div></div><div class="me"><div class="v" id="rmP" style="color:var(--amber)">278</div><div class="u">W</div><div class="l">Potencia</div></div><div class="me"><div class="v" id="rmD" style="color:var(--teal)">15</div><div class="u">MB/sol</div><div class="l">Datos TX</div></div></div>
+      <div class="mr" style="margin-top:5px"><div class="me"><div class="v" id="rmW" style="color:var(--purple)">10.6</div><div class="u">km</div><div class="l">Vida Rueda</div></div><div class="me"><div class="v" id="rmS" style="color:var(--red)">71</div><div class="u">pts/sol</div><div class="l">Ciencia</div></div><div class="me"><div class="v" id="rmDu" style="color:var(--white)">50</div><div class="u">sols</div><div class="l">Duración Est.</div></div></div>
+      <div class="mr" style="margin-top:5px"><div class="me"><div class="v" id="rmTrv" style="color:var(--blue)">5</div><div class="u">/100</div><div class="l">Traversabilidad</div></div><div class="me"><div class="v" id="rmEf" style="color:var(--teal)">86</div><div class="u">%</div><div class="l">Eficiencia</div></div><div class="me"><div class="v" id="rmKm" style="color:var(--amber)">11</div><div class="u">km</div><div class="l">Distancia Total</div></div></div>
+    </div>
+    <div class="dc"><h3>⚡ Travesía</h3><div class="gw"><svg class="gg" viewBox="0 0 120 120" id="gT"><circle cx="60" cy="60" r="50" class="gt"></circle><circle cx="60" cy="60" r="50" class="gf" stroke="var(--cyan)" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="stroke-dashoffset: 292.237;"></circle><text x="60" y="56" text-anchor="middle" class="gv" id="gTV">0.21</text><text x="60" y="72" text-anchor="middle" class="gu">km/sol</text></svg></div></div>
+    <div class="dc"><h3>☀️ Potencia Solar</h3><div class="gw"><svg class="gg" viewBox="0 0 120 120" id="gP"><circle cx="60" cy="60" r="50" class="gt"></circle><circle cx="60" cy="60" r="50" class="gf" stroke="var(--amber)" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="stroke-dashoffset: 139.796;"></circle><text x="60" y="56" text-anchor="middle" class="gv" id="gPV">278</text><text x="60" y="72" text-anchor="middle" class="gu">watts</text></svg></div></div>
+    <div class="dc"><h3>🛞 Vida Ruedas</h3><div class="gw"><svg class="gg" viewBox="0 0 120 120" id="gW"><circle cx="60" cy="60" r="50" class="gt"></circle><circle cx="60" cy="60" r="50" class="gf" stroke="var(--teal)" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="stroke-dashoffset: 203.622;"></circle><text x="60" y="56" text-anchor="middle" class="gv" id="gWV">10.6</text><text x="60" y="72" text-anchor="middle" class="gu">km rest.</text></svg></div></div>
+    <div class="dc s3"><h3>📈 Presupuesto Energético por Sol (24.6 h)</h3><div style="height:220px;position:relative"><canvas id="rpch" height="242" style="display: block; box-sizing: border-box; height: 220px; width: 869px;" width="956"></canvas></div></div>
+  </div></div>
+</div>
+
+<!-- ═══ CREW TAB ═══ -->
+<div class="tp" id="pc">
+  <div class="ds"><div class="dh"><h2>👨‍🚀 Planificación de Tripulación y EVA</h2><p>ECLSS, presupuesto de recursos, exposición a radiación y actividades extravehiculares con modelos NASA</p></div>
+  <div class="dg">
+    <div class="dc s2"><h3>⚙️ Parámetros de Misión</h3><div id="cSlid"><div class="sr"><label>Tamaño Tripulación</label><input type="range" id="cSz" min="2" max="8" value="4" step="1"><span class="sv" id="cSzV">4 pers</span></div><div class="sr"><label>Duración EVA</label><input type="range" id="cEd" min="1" max="8" value="6" step="0.5"><span class="sv" id="cEdV">6 hrs</span></div><div class="sr"><label>Tasa Metabólica</label><input type="range" id="cMt" min="200" max="600" value="350" step="25"><span class="sv" id="cMtV">450 W</span></div><div class="sr"><label>Capacidad O₂ Traje</label><input type="range" id="cO2c" min="1" max="8" value="3.6" step="0.1"><span class="sv" id="cO2cV">3.6 kg</span></div><div class="sr"><label>Blindaje Radiación</label><input type="range" id="cSh" min="0" max="50" value="20" step="1"><span class="sv" id="cShV">20 g/cm²</span></div><div class="sr"><label>Efic. Reciclaje Agua</label><input type="range" id="cRc" min="70" max="98" value="93" step="1"><span class="sv" id="cRcV">93 %</span></div><div class="sr"><label>Duración Misión</label><input type="range" id="cDr" min="7" max="500" value="180" step="5"><span class="sv" id="cDrV">180 sols</span></div><div class="sr"><label>Potencia Hábitat</label><input type="range" id="cHp" min="5" max="40" value="15" step="1"><span class="sv" id="cHpV">15 kW</span></div></div></div>
+    <div class="dc"><h3>📊 Presupuesto de Recursos</h3>
+      <div class="mr"><div class="me"><div class="v" id="cO2" style="color:var(--cyan)">3.45</div><div class="u">kg/EVA</div><div class="l">Consumo O₂</div></div><div class="me"><div class="v" id="cEV" style="color:var(--teal)">6.3</div><div class="u">hrs</div><div class="l">Max EVA</div></div><div class="me"><div class="v" id="cRd" style="color:var(--red)">0.31</div><div class="u">mSv/sol</div><div class="l">Radiación</div></div></div>
+      <div class="mr" style="margin-top:5px"><div class="me"><div class="v" id="cW" style="color:var(--purple)">1.4</div><div class="u">L/sol</div><div class="l">Agua Neta</div></div><div class="me"><div class="v" id="cF" style="color:var(--amber)">7.2</div><div class="u">kg/sol</div><div class="l">Alimento</div></div><div class="me"><div class="v" id="cPw" style="color:var(--white)">15</div><div class="u">kW</div><div class="l">Pot. Hábitat</div></div></div>
+    </div>
+    <div class="dc"><h3>🌬️ ECLSS (Soporte Vital)</h3>
+      <div class="mr"><div class="me"><div class="v" id="cOG" style="color:var(--cyan)">3.36</div><div class="u">kg/sol</div><div class="l">O₂ Generado</div></div><div class="me"><div class="v" id="cCR" style="color:var(--purple)">4.00</div><div class="u">kg/sol</div><div class="l">CO₂ Removido</div></div><div class="me"><div class="v" id="cWR" style="color:var(--teal)">18.6</div><div class="u">L/sol</div><div class="l">Agua Reciclada</div></div></div>
+      <div class="mr" style="margin-top:5px"><div class="me"><div class="v" id="cN2" style="color:var(--blue)">0.080</div><div class="u">kg/sol</div><div class="l">N₂ Makeup</div></div><div class="me"><div class="v" id="cTh" style="color:var(--amber)">2.0</div><div class="u">kW</div><div class="l">Térmica</div></div><div class="me"><div class="v" id="cEP" style="color:var(--red)">3.5</div><div class="u">kW</div><div class="l">Pot. ECLSS</div></div></div>
+    </div>
+    <div class="dc"><h3>☢️ Radiación</h3><div class="gw"><svg class="gg" viewBox="0 0 120 120" id="gR"><circle cx="60" cy="60" r="50" class="gt"></circle><circle cx="60" cy="60" r="50" class="gf" stroke="var(--red)" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="stroke-dashoffset: 296.176;"></circle><text x="60" y="56" text-anchor="middle" class="gv" id="gRV">57</text><text x="60" y="72" text-anchor="middle" class="gu">mSv total</text></svg></div></div>
+    <div class="dc"><h3>💧 O₂ por EVA</h3><div class="gw"><svg class="gg" viewBox="0 0 120 120" id="gO"><circle cx="60" cy="60" r="50" class="gt"></circle><circle cx="60" cy="60" r="50" class="gf" stroke="var(--cyan)" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="stroke-dashoffset: 13.3518;"></circle><text x="60" y="56" text-anchor="middle" class="gv" id="gOV">3.45</text><text x="60" y="72" text-anchor="middle" class="gu">kg</text></svg></div></div>
+    <div class="dc"><h3>⏱️ Max EVA</h3><div class="gw"><svg class="gg" viewBox="0 0 120 120" id="gE"><circle cx="60" cy="60" r="50" class="gt"></circle><circle cx="60" cy="60" r="50" class="gf" stroke="var(--teal)" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" style="stroke-dashoffset: 117.297;"></circle><text x="60" y="56" text-anchor="middle" class="gv" id="gEV">6.3</text><text x="60" y="72" text-anchor="middle" class="gu">horas</text></svg></div></div>
+    <div class="dc s3"><h3>📈 Consumo Acumulado de Recursos</h3><div style="height:200px;position:relative"><canvas id="crch" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+    <div class="dc s3"><h3>☢️ Acumulación de Dosis de Radiación</h3><div style="height:190px;position:relative"><canvas id="crdch" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+  </div></div>
+</div>
+
+<!-- ═══ MISSION TAB ═══ -->
+<div class="tp" id="pm">
+  <div class="ds"><div class="dh"><h2>🎯 Planificación de Misión Completa</h2><p>Estimación de costos, ventanas de comunicación, retardo de señal y plan de recolección de muestras científicas</p></div>
+  <div class="dg">
+    <div class="dc s2"><h3>💰 Estimador de Costos de Misión</h3>
+      <div class="mr"><div class="me"><div class="v" id="mcL" style="color:var(--cyan)">110</div><div class="u">$M</div><div class="l">Lanzamiento</div></div><div class="me"><div class="v" id="mcDv" style="color:var(--purple)">1450</div><div class="u">$M</div><div class="l">Desarrollo</div></div><div class="me"><div class="v" id="mcOp" style="color:var(--teal)">1675</div><div class="u">$M</div><div class="l">Operaciones</div></div></div>
+      <div class="mr" style="margin-top:5px"><div class="me"><div class="v" id="mcSc" style="color:var(--amber)">245</div><div class="u">$M</div><div class="l">Instrumentos</div></div><div class="me"><div class="v" id="mcTot" style="color:var(--red)">3480</div><div class="u">$M</div><div class="l">Total Misión</div></div><div class="me"><div class="v" id="mcROI" style="color:var(--teal)">20.40</div><div class="u">pts/$M</div><div class="l">ROI Ciencia</div></div></div>
+    </div>
+    <div class="dc"><h3>📡 Comunicación Tierra-Marte</h3>
+      <div class="mr"><div class="me"><div class="v" id="mcDel" style="color:var(--cyan)">18.5</div><div class="u">min</div><div class="l">Retardo Luz</div></div><div class="me"><div class="v" id="mcDSN" style="color:var(--amber)">480</div><div class="u">min/sol</div><div class="l">Ventana DSN</div></div><div class="me"><div class="v" id="mcBw" style="color:var(--teal)">0.256</div><div class="u">Mbps</div><div class="l">Ancho Banda</div></div></div>
+      <div class="mr" style="margin-top:5px"><div class="me"><div class="v" id="mcDist" style="color:var(--purple)">333</div><div class="u">Mkm</div><div class="l">Distancia</div></div><div class="me"><div class="v" id="mcVol" style="color:var(--white)">0.90</div><div class="u">GB/sol</div><div class="l">Vol. Datos</div></div><div class="me"><div class="v" id="mcCmd" style="color:var(--blue)">12</div><div class="u">cmds/sol</div><div class="l">Comandos</div></div></div>
+    </div>
+    <div class="dc s2"><h3>📊 Desglose de Costos</h3><div style="height:210px;position:relative"><canvas id="cstch" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+    <div class="dc"><h3>🧪 Plan de Muestras Científicas</h3><div id="sampPlan"><table class="samp-tbl"><tbody><tr><th>Muestra</th><th>Prioridad</th><th>Instrumento</th><th>Masa</th></tr><tr><td>Roca superficial</td><td class="samp-pri" style="color:var(--amber)">ALTA</td><td style="color:var(--cyan)">APXS</td><td>0.5 kg</td></tr><tr><td>Suelo/regolito</td><td class="samp-pri" style="color:var(--amber)">ALTA</td><td style="color:var(--cyan)">XRD</td><td>0.3 kg</td></tr><tr><td>Núcleo perforado</td><td class="samp-pri" style="color:var(--red)">CRÍTICA</td><td style="color:var(--cyan)">Drill + RIMFAX</td><td>0.8 kg</td></tr><tr><td>Atmósfera/gas</td><td class="samp-pri" style="color:var(--amber)">ALTA</td><td style="color:var(--cyan)">Drill</td><td>0.01 kg</td></tr><tr><td>Mineral específico</td><td class="samp-pri" style="color:var(--amber)">ALTA</td><td style="color:var(--cyan)">MastCam</td><td>0.2 kg</td></tr><tr><td>Biofirma potencial</td><td class="samp-pri" style="color:var(--red)">CRÍTICA</td><td style="color:var(--cyan)">SHERLOC</td><td>0.1 kg</td></tr></tbody></table></div></div>
+    <div class="dc s3"><h3>📡 Retardo de Comunicación durante la Misión</h3><div style="height:190px;position:relative"><canvas id="delch" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+  </div></div>
+</div>
+
+<!-- ═══ NASA LIVE TAB ═══ -->
+<div class="tp" id="pn">
+  <div class="ds"><div class="dh"><h2>🛰️ Datos NASA en Tiempo Real</h2><p>Conexión directa a APIs de NASA Open Data — configura tu API Key para acceso completo</p></div>
+  <div class="dg">
+    <div class="dc s2"><h3>🖼️ Imagen Astronómica del Día (APOD)</h3><div id="apodC"><h4 style="font-size:.75rem;margin-bottom:3px"></h4><p style="font-size:.6rem;color:var(--muted);line-height:1.4;max-height:70px;overflow:auto"></p></div></div>
+    <div class="dc"><h3>🌐 Eventos EONET</h3><div class="el" id="eonetL"><div class="ei"><div class="ed" style="background:var(--purple)"></div><div><div class="et">Tropical Cyclone Akvan</div><div class="edt">Severe Storms · 2026-11-16</div></div></div><div class="ei"><div class="ed" style="background:var(--purple)"></div><div><div class="et">Tropical Cyclone Xavier</div><div class="edt">Severe Storms · 2026-11-15</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Wildfire Range 47, Forrest, Mississippi</div><div class="edt">Wildfires · 2026-11-13</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Wildfire 201W, Perry, Mississippi</div><div class="edt">Wildfires · 2026-11-13</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Prescribed Fire rx-Northern Scuppernong, Waukesha, Wisconsin</div><div class="edt">Wildfires · 2026-11-13</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Prescribed Fire 3R RX - KRUMM MP, Stevens, Washington</div><div class="edt">Wildfires · 2026-11-12</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Prescribed Fire Holly Springs 119-1 &amp; 84-2 RX, Lafayette, Mississippi</div><div class="edt">Wildfires · 2026-11-12</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Wildfire Red Hill, Perry, Mississippi</div><div class="edt">Wildfires · 2026-11-12</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Prescribed Fire Bienville CPT 29 Sub 2 RX, Scott, Mississippi</div><div class="edt">Wildfires · 2026-11-11</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Prescribed Fire Compartment 170 RX, Greene, Georgia</div><div class="edt">Wildfires · 2026-11-09</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Wildfire FOOT CREEK, Johnson, Wyoming</div><div class="edt">Wildfires · 2026-11-05</div></div></div><div class="ei"><div class="ed" style="background:var(--red)"></div><div><div class="et">Prescribed Fire Cold Springs RX, Wasatch, Utah</div><div class="edt">Wildfires · 2026-11-03</div></div></div></div></div>
+    <div class="dc s2"><h3>☄️ Objetos Cercanos (NEO)</h3><div id="neoC"><div style="font-size:.62rem;color:var(--muted);margin-bottom:5px">4 objetos hoy</div><div class="nr"><span class="nn">(2013 AZ52)</span><span class="nd">163.1 LD</span><span class="ns">452m</span></div><div class="nr"><span class="nn">⚠️ (2016 JC6)</span><span class="nd">159.1 LD</span><span class="ns">229m</span></div><div class="nr"><span class="nn">(2019 VF1)</span><span class="nd">23.4 LD</span><span class="ns">108m</span></div><div class="nr"><span class="nn">(2019 WG)</span><span class="nd">56.7 LD</span><span class="ns">62m</span></div></div></div>
+    <div class="dc"><h3>🌞 Clima Espacial (DONKI)</h3><div id="donkiC"><p style="color:var(--dim);font-size:.65rem">Sin fulguraciones.</p></div></div>
+  </div></div>
+</div>
+
+<footer>
+  <div class="si"><span class="sd2 ok"></span> SYS</div><div class="fs"></div>
+  <div class="si"><span class="sd2 ok" id="dN"></span> NASA</div><div class="fs"></div>
+  <div class="si"><span class="sd2 off" id="dG"></span> GEMINI</div><div class="fs"></div>
+  <div class="si" id="sCt">17 ANÁLOGOS · 5 MÓDULOS</div>
+  <div class="fc" id="fCd">LAT 65.050 · LNG -16.750 · ALT 1100m</div>
+</footer>
+</div>
+
+<div class="mo" id="mKeys"><div class="mx"><h2>🔑 Configurar API Keys</h2>
+  <div class="mff"><label>Google Gemini API Key</label><input type="password" id="iG" placeholder="AIza…"><small>Obtener en <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></small></div>
+  <div class="mff"><label>NASA Open Data API Key</label><input type="password" id="iN" placeholder="DEMO_KEY"><small>Obtener en <a href="https://api.nasa.gov/" target="_blank">api.nasa.gov</a></small></div>
+  <div class="ma"><button class="bp" id="bSv">GUARDAR</button><button class="bg" id="bCl">CERRAR</button></div>
+</div></div>
+
+<!-- ═══ MODAL DESCUBRIMIENTO AUTOMATIZADO ═══ -->
+<div class="mo" id="mDisc">
+  <div class="mx" style="width:720px;max-width:95vw;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gb);padding-bottom:8px">
+      <h2 style="margin:0;font-size:0.8rem;text-align:left">🛰️ Descubrimiento Automatizado de Regiones Terrestres</h2>
+      <button class="cx" id="bDiscCl" style="font-size:1rem;background:none;border:none;color:var(--dim);cursor:pointer">✕</button>
+    </div>
+    
+    <p style="font-size:0.62rem;color:var(--muted);line-height:1.4">
+      Explora la Tierra mediante modelos satelitales, descarga datos científicos reales de NASA POWER y ejecuta una comparación cuantitativa multivariable frente a zonas específicas de Marte y la Luna.
+    </p>
+
+    <div class="tg" style="grid-template-columns:1fr 1fr;gap:8px">
+      <div class="mff" style="margin:0">
+        <label>Región Candidata a Explorar</label>
+        <select id="selCand" style="width:100%;padding:6px 9px;border-radius:8px;border:1px solid var(--gb);background:rgba(0,0,0,.6);color:var(--white);font-family:var(--fb);font-size:.65rem;outline:none"><option value="0">Salar de Arizaro (Argentina (Puna)) — ♂ Análogo Marte</option><option value="1">Desierto de Qaidam (Tíbet / China) — ♂ Análogo Marte</option><option value="2">Desierto de Lut (Dasht-e Lut) (Irán) — ♂ Análogo Marte</option><option value="3">Glaciar Taylor (Blood Falls) (Antártida) — ♂ Análogo Marte</option><option value="4">Cráter Lonar (India) — ☽ Análogo Luna [Ya Añadido]</option><option value="5">Valle de Haughton (Isla Devon (Ártico)) — ♂ Análogo Marte</option><option value="6">Chott el Djerid (Túnez) — ♂ Análogo Marte</option><option value="7">Pico de Orizaba (Páramo) (México) — ♂ Análogo Marte</option></select>
+      </div>
+      <div class="mff" style="margin:0">
+        <label>Modo de Descubrimiento</label>
+        <button class="bp" id="bAutoRand" style="width:100%;padding:6px;font-size:.62rem" onclick="runRandomDiscovery()">🎲 Escaneo Automático Global</button>
+      </div>
+    </div>
+
+    <div class="ma" style="margin-top:2px">
+      <button class="bp" id="bRunDisc" onclick="executeDiscovery()">⚡ Descargar Datos Científicos NASA &amp; Comparar Cuantitativamente</button>
+    </div>
+
+    <div id="discStatus" style="display: block; font-size: 0.65rem; font-family: var(--fm); color: var(--cyan); text-align: center; padding: 6px; background: rgba(0, 229, 255, 0.05); border-radius: 6px; border: 1px solid var(--gb);">✅ <strong>Cráter Lonar</strong> procesado · Fuente: Modelo Geoespacial Barométrico ISA</div>
+
+    <div id="discResults" style="display: flex; flex-direction: column; gap: 8px;">
+      <div class="ts" style="background:rgba(0,0,0,.35);padding:8px;border-radius:8px;border:1px solid var(--gb)">
+        <div class="tt" style="color:var(--teal)">📊 Datos Científicos Descargados y Procesados</div>
+        <div class="tg" id="discMetricsGrid" style="grid-template-columns:repeat(3, 1fr);gap:5px;margin-top:5px">
+      <div class="tc"><div class="tv" style="color:var(--red)">12</div><div class="tu">°C</div><div class="tl">Temperatura</div></div>
+      <div class="tc"><div class="tv" style="color:var(--purple)">948</div><div class="tu">hPa</div><div class="tl">Presión Barom.</div></div>
+      <div class="tc"><div class="tv" style="color:var(--cyan)">28</div><div class="tu">km/h</div><div class="tl">Viento</div></div>
+      <div class="tc"><div class="tv" style="color:var(--teal)">12</div><div class="tu">%</div><div class="tl">Humedad</div></div>
+      <div class="tc"><div class="tv" style="color:var(--amber)">11</div><div class="tu">idx</div><div class="tl">Índice UV</div></div>
+      <div class="tc"><div class="tv" style="color:var(--white)">5.4</div><div class="tu">kWh/m²</div><div class="tl">Irradiancia Solar</div></div>
+    </div>
+      </div>
+
+      <div class="ts" style="background:rgba(0,0,0,.35);padding:8px;border-radius:8px;border:1px solid var(--gb)">
+        <div class="tt" style="color:var(--cyan)">🔬 Comparación Cuantitativa con Zonas de Marte y Luna</div>
+        <div style="font-size:0.52rem;color:var(--muted);margin-bottom:5px">Similitud multivariable calculada frente a los perfiles de superficie de NASA:</div>
+        <div style="overflow-x:auto;max-height:200px">
+          <table class="samp-tbl" id="tblPlanetaryMatch" style="width:100%">
+            <thead>
+              <tr>
+                <th>Zona Extraterrestre</th>
+                <th>Cuerpo</th>
+                <th>Tipo de Terreno</th>
+                <th>Geoq.</th>
+                <th>Atmos.</th>
+                <th>Térm.</th>
+                <th>Geom.</th>
+                <th style="text-align:right">Similitud Total</th>
+              </tr>
+            </thead>
+            <tbody id="tblPlanetaryMatchBody">
+        <tr style="background:rgba(0,255,163,.08);font-weight:700">
+          <td>Mare Tranquillitatis <span style="font-size:.5rem;color:var(--teal);border:1px solid var(--teal);padding:1px 4px;border-radius:4px;margin-left:4px">MEJOR ANÁLOGO</span></td>
+          <td style="color:var(--amber)">☽ Luna</td>
+          <td style="font-size:.52rem;color:var(--muted)">Mar basáltico rico en titanio</td>
+          <td>62%</td>
+          <td>10%</td>
+          <td>75%</td>
+          <td>53%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--cyan)">52%</td>
+        </tr>
+      
+        <tr style="">
+          <td>Oceanus Procellarum </td>
+          <td style="color:var(--amber)">☽ Luna</td>
+          <td style="font-size:.52rem;color:var(--muted)">Terreno KREEP / Vulcanismo joven</td>
+          <td>62%</td>
+          <td>10%</td>
+          <td>82%</td>
+          <td>47%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--cyan)">52%</td>
+        </tr>
+      
+        <tr style="">
+          <td>Olympus Mons / Tharsis </td>
+          <td style="color:var(--cyan)">♂ Marte</td>
+          <td style="font-size:.52rem;color:var(--muted)">Escudo volcánico / Tubos de lava</td>
+          <td>46%</td>
+          <td>22%</td>
+          <td>15%</td>
+          <td>94%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--cyan)">49%</td>
+        </tr>
+      
+        <tr style="">
+          <td>Cráter Gale (Mt. Sharp) </td>
+          <td style="color:var(--cyan)">♂ Marte</td>
+          <td style="font-size:.52rem;color:var(--muted)">Estratos lacustres secuenciales</td>
+          <td>19%</td>
+          <td>23%</td>
+          <td>29%</td>
+          <td>80%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--cyan)">48%</td>
+        </tr>
+      
+        <tr style="">
+          <td>Cráter Tycho / Copérnico </td>
+          <td style="color:var(--amber)">☽ Luna</td>
+          <td style="font-size:.52rem;color:var(--muted)">Impacto complejo con pico central</td>
+          <td>21%</td>
+          <td>10%</td>
+          <td>75%</td>
+          <td>79%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--cyan)">47%</td>
+        </tr>
+      
+        <tr style="">
+          <td>Valles Marineris </td>
+          <td style="color:var(--cyan)">♂ Marte</td>
+          <td style="font-size:.52rem;color:var(--muted)">Cañón tectónico gigante</td>
+          <td>20%</td>
+          <td>23%</td>
+          <td>34%</td>
+          <td>78%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--cyan)">46%</td>
+        </tr>
+      
+        <tr style="">
+          <td>Cráter Jezero </td>
+          <td style="color:var(--cyan)">♂ Marte</td>
+          <td style="font-size:.52rem;color:var(--muted)">Delta lacustre / Paleolago</td>
+          <td>28%</td>
+          <td>23%</td>
+          <td>24%</td>
+          <td>64%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--amber)">45%</td>
+        </tr>
+      
+        <tr style="">
+          <td>Meridiani Planum </td>
+          <td style="color:var(--cyan)">♂ Marte</td>
+          <td style="font-size:.52rem;color:var(--muted)">Planicie evaporítica ácida</td>
+          <td>28%</td>
+          <td>23%</td>
+          <td>24%</td>
+          <td>46%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--amber)">39%</td>
+        </tr>
+      
+        <tr style="">
+          <td>Utopia Planitia </td>
+          <td style="color:var(--cyan)">♂ Marte</td>
+          <td style="font-size:.52rem;color:var(--muted)">Planicie periglacial / Hielo fósil</td>
+          <td>22%</td>
+          <td>23%</td>
+          <td>12%</td>
+          <td>51%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--amber)">39%</td>
+        </tr>
+      
+        <tr style="">
+          <td>Cráter Shackleton (Polo Sur) </td>
+          <td style="color:var(--amber)">☽ Luna</td>
+          <td style="font-size:.52rem;color:var(--muted)">Región en sombra permanente (PSR)</td>
+          <td>35%</td>
+          <td>10%</td>
+          <td>0%</td>
+          <td>71%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:var(--amber)">39%</td>
+        </tr>
+      </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ma" style="margin-top:2px">
+        <button class="bp" id="bIntegrateSite" style="background:rgba(0,255,163,.15);border-color:rgba(0,255,163,.4);color:var(--teal)" onclick="integrateDiscoveredSite()">🌍 Integrar al Globo 3D &amp; Explorar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="cf" id="chatFab">🤖</button>
+<div id="cw">
+  <div class="ch"><div class="ad"></div><span>GEMINI COPILOT</span><button class="cx" id="chCl">✕</button></div>
+  <div class="cms" id="chMs"><div class="cm ai">¡Hola! Soy el copiloto científico de NOVA GENESIS. Selecciona un análogo y pregúntame sobre condiciones atmosféricas, rendimiento de rovers, planificación de tripulación o costos de misión. 🚀</div></div>
+  <div class="ciw"><input class="ci" id="chI" placeholder="Pregunta sobre el análogo…"><button class="cs" id="chS">▶</button></div>
+</div>
+
+<script src="./novagenesis 2.0_files/i18n.js.download"></script>
+<script>
+// ═════════════════════════════════════════════════════════
+// NOVA GENESIS v3.1 — Complete Planetary Mission Planner
+// NASA Space Apps Challenge Edition (Fixed & Optimized)
+// ═════════════════════════════════════════════════════════
+
+const SITES=[
+{id:1,name:"Desierto de Atacama",country:"Chile",lat:-23.86,lng:-69.13,planet:"mars",temp:-2,pres:560,wind:35,hum:2,uv:14,alt:4500,slope:8,rocks:15,soil:"Regolito seco",waterProb:.05,
+minerals:[{n:"Percloratos",p:42,c:"var(--cyan)"},{n:"Sulfatos",p:65,c:"var(--teal)"},{n:"Óx. Hierro",p:78,c:"var(--red)"},{n:"Arcillas",p:20,c:"var(--amber)"}],
+equiv:"Análogo a Meridiani Planum — suelo hiperárido con percloratos y sulfatos. Radiación UV extrema sin filtrado atmosférico. pH 7-8 neutro en suelos profundos.",
+radar:{e:[85,15,92,70,88,60],r:[90,5,95,80,92,70]},instruments:["APXS","XRD","ChemCam","MAHLI","SAM"]},
+{id:2,name:"Isla Devon",country:"Canadá",lat:75.42,lng:-89.97,planet:"mars",temp:-20,pres:1013,wind:55,hum:30,uv:3,alt:300,slope:5,rocks:25,soil:"Permafrost",waterProb:.7,
+minerals:[{n:"Basalto",p:60,c:"var(--cyan)"},{n:"Dolomita",p:45,c:"var(--teal)"},{n:"Yeso",p:55,c:"var(--amber)"},{n:"Sulfatos",p:40,c:"var(--red)"}],
+equiv:"Cráter Haughton Impact — análogo al cráter Gale. Permafrost y depósitos lacustres. Terreno de prueba HMP de NASA/CSA.",
+radar:{e:[30,55,75,45,20,80],r:[25,60,80,50,15,85]},instruments:["RIMFAX","Drill","MAHLI","MOXIE","SHERLOC"]},
+{id:3,name:"Río Tinto",country:"España",lat:37.72,lng:-6.56,planet:"mars",temp:22,pres:1015,wind:15,hum:45,uv:8,alt:400,slope:12,rocks:30,soil:"Acidófilo pH 2",waterProb:.9,
+minerals:[{n:"Jarosita",p:80,c:"var(--amber)"},{n:"Goethita",p:70,c:"var(--red)"},{n:"Hematita",p:85,c:"var(--cyan)"},{n:"Pirita",p:60,c:"var(--teal)"}],
+equiv:"Análogo mineralógico directo a Meridiani Planum. Jarosita y hematita en esferas. Extremófilos acidófilos pH 2-3 como modelo de vida marciana.",
+radar:{e:[72,60,40,65,62,35],r:[75,55,45,70,65,40]},instruments:["SHERLOC","PIXL","SuperCam","Drill","SAM"]},
+{id:4,name:"Valles Secos McMurdo",country:"Antártida",lat:-77.52,lng:162.2,planet:"mars",temp:-25,pres:980,wind:70,hum:5,uv:6,alt:1500,slope:3,rocks:10,soil:"Glacial seco",waterProb:.3,
+minerals:[{n:"Sal gema",p:50,c:"var(--cyan)"},{n:"Carbonatos",p:35,c:"var(--teal)"},{n:"Sulfatos",p:45,c:"var(--amber)"},{n:"Basalto",p:70,c:"var(--red)"}],
+equiv:"Análogo climático a Utopia Planitia — desierto glacial con polígonos de contracción térmica y sublimación idénticos a Marte.",
+radar:{e:[22,18,90,40,38,92],r:[18,12,95,45,35,95]},instruments:["RIMFAX","MEDA","Drill","MAHLI","APXS"]},
+{id:5,name:"Svalbard",country:"Noruega",lat:78.22,lng:15.63,planet:"mars",temp:-14,pres:1010,wind:40,hum:50,uv:2,alt:100,slope:6,rocks:20,soil:"Periglacial",waterProb:.8,
+minerals:[{n:"Carbonatos",p:55,c:"var(--teal)"},{n:"Basalto",p:45,c:"var(--cyan)"},{n:"Piroxeno",p:40,c:"var(--red)"},{n:"Sulfatos",p:35,c:"var(--amber)"}],
+equiv:"Análogo a Vastitas Borealis — hielo estratificado como capa polar norte marciana. Carbonatos criogénicos.",
+radar:{e:[28,62,65,48,15,70],r:[22,58,70,55,12,75]},instruments:["RIMFAX","MEDA","Drill","SuperCam","PIXL"]},
+{id:6,name:"Lanzarote",country:"Islas Canarias",lat:29.05,lng:-13.63,planet:"mars",temp:24,pres:1018,wind:25,hum:55,uv:10,alt:600,slope:15,rocks:35,soil:"Basáltico lávico",waterProb:.1,
+minerals:[{n:"Olivino",p:70,c:"var(--teal)"},{n:"Basalto",p:85,c:"var(--cyan)"},{n:"Piroxeno",p:60,c:"var(--red)"},{n:"Magnetita",p:40,c:"var(--amber)"}],
+equiv:"Análogo volcánico a Olympus Mons — flujos basálticos y tubos de lava. ESA entrena rovers en Timanfaya.",
+radar:{e:[75,60,30,55,72,40],r:[80,55,35,60,75,45]},instruments:["SuperCam","APXS","MAHLI","ChemCam","MastCam"]},
+{id:7,name:"Wadi Rum",country:"Jordania",lat:29.57,lng:35.42,planet:"mars",temp:35,pres:960,wind:30,hum:10,uv:12,alt:1000,slope:10,rocks:20,soil:"Arenisca eólica",waterProb:.08,
+minerals:[{n:"Arenisca",p:80,c:"var(--amber)"},{n:"Óx. Hierro",p:75,c:"var(--red)"},{n:"Cuarzo",p:60,c:"var(--cyan)"},{n:"Feldespato",p:40,c:"var(--teal)"}],
+equiv:"'Valle de la Luna' — erosión eólica idéntica a Valles Marineris. Óxidos Fe₂O₃ como regolito marciano.",
+radar:{e:[88,22,20,62,82,25],r:[92,18,25,68,85,30]},instruments:["SuperCam","MastCam","MAHLI","APXS","MEDA"]},
+{id:8,name:"Desierto Mojave",country:"EE.UU.",lat:35.01,lng:-115.47,planet:"mars",temp:38,pres:1010,wind:20,hum:8,uv:11,alt:700,slope:7,rocks:18,soil:"Evaporítico",waterProb:.15,
+minerals:[{n:"Carbonatos",p:50,c:"var(--teal)"},{n:"Evaporitas",p:65,c:"var(--cyan)"},{n:"Basalto",p:40,c:"var(--red)"},{n:"Sulfatos",p:55,c:"var(--amber)"}],
+equiv:"Análogo a cráter Jezero — depósitos evaporíticos y deltas fósiles. Campo de pruebas JPL para Mars 2020.",
+radar:{e:[90,15,25,58,78,30],r:[88,10,30,62,80,35]},instruments:["PIXL","SHERLOC","Drill","MastCam","SuperCam"]},
+{id:9,name:"Pilbara",country:"Australia",lat:-21.18,lng:119.75,planet:"mars",temp:40,pres:1008,wind:18,hum:12,uv:13,alt:500,slope:4,rocks:22,soil:"Hierro bandeado",waterProb:.2,
+minerals:[{n:"Estromatolitos",p:85,c:"var(--teal)"},{n:"Óx. Hierro",p:90,c:"var(--red)"},{n:"Cuarzo",p:55,c:"var(--cyan)"},{n:"Sulfuros",p:40,c:"var(--amber)"}],
+equiv:"Estromatolitos 3.5 Ga — vida más antigua. Análogo astrobiológico clave para biofirmas en Jezero. BIF análogo a Marte Noáquico.",
+radar:{e:[92,18,15,60,85,20],r:[90,12,20,65,88,25]},instruments:["SHERLOC","PIXL","SuperCam","Drill","SAM"]},
+{id:10,name:"Askja & Holuhraun",country:"Islandia",lat:65.05,lng:-16.75,planet:"mars",temp:-5,pres:990,wind:60,hum:65,uv:4,alt:1100,slope:14,rocks:40,soil:"Palagonita",waterProb:.6,
+minerals:[{n:"Basalto",p:90,c:"var(--cyan)"},{n:"Obsidiana",p:55,c:"var(--purple)"},{n:"Palagonita",p:70,c:"var(--amber)"},{n:"Olivino",p:50,c:"var(--teal)"}],
+equiv:"Análogo volcánico-glacial a Elysium Planitia — interacción lava-hielo, palagonita componente del polvo marciano.",
+radar:{e:[25,70,80,55,28,85],r:[20,65,85,60,22,90]},instruments:["APXS","XRD","RIMFAX","Drill","MastCam"]},
+{id:11,name:"Depresión de Danakil",country:"Etiopía",lat:14.24,lng:40.30,planet:"mars",temp:50,pres:1060,wind:15,hum:20,uv:13,alt:-125,slope:2,rocks:8,soil:"Evaporítico extremo",waterProb:.4,
+minerals:[{n:"Halita",p:90,c:"var(--cyan)"},{n:"Azufre",p:80,c:"var(--amber)"},{n:"Sulfatos",p:75,c:"var(--teal)"},{n:"Potasa",p:60,c:"var(--red)"}],
+equiv:"Análogo hidrotermal extremo a Marte primitivo — pH ultra-bajo, sales policristalinas, vida en límite termodinámico.",
+radar:{e:[98,28,10,72,90,15],r:[95,22,15,75,92,20]},instruments:["SAM","SHERLOC","ChemCam","MEDA","SuperCam"]},
+{id:12,name:"Ladakh",country:"India",lat:34.15,lng:77.58,planet:"mars",temp:-10,pres:630,wind:45,hum:15,uv:11,alt:4500,slope:11,rocks:25,soil:"Alta meseta",waterProb:.35,
+minerals:[{n:"Granito",p:50,c:"var(--cyan)"},{n:"Carbonatos",p:40,c:"var(--teal)"},{n:"Sulfatos",p:35,c:"var(--amber)"},{n:"Basalto",p:55,c:"var(--red)"}],
+equiv:"Análogo de alta meseta a Tharsis — presión reducida, UV intensa, lagos salinos con extremófilos análogos a refugios marcianos.",
+radar:{e:[35,25,80,50,75,65],r:[30,20,85,55,78,70]},instruments:["SuperCam","APXS","Drill","MEDA","MAHLI"]},
+{id:13,name:"Altiplano Boliviano",country:"Bolivia",lat:-20.13,lng:-67.49,planet:"mars",temp:5,pres:620,wind:40,hum:20,uv:14,alt:4000,slope:3,rocks:5,soil:"Salar",waterProb:.25,
+minerals:[{n:"Boratos",p:65,c:"var(--cyan)"},{n:"Carbonatos",p:50,c:"var(--teal)"},{n:"Sulfatos Li",p:70,c:"var(--amber)"},{n:"Halita",p:55,c:"var(--red)"}],
+equiv:"Salar de Uyuni — espejo planetario análogo a planicies Amazonis. Evaporitas Li/B como paleolago Gale.",
+radar:{e:[48,30,75,55,82,60],r:[42,25,80,60,85,65]},instruments:["ChemCam","XRD","APXS","SAM","MEDA"]},
+{id:14,name:"Valle de la Muerte",country:"EE.UU.",lat:36.46,lng:-116.87,planet:"mars",temp:45,pres:1035,wind:22,hum:5,uv:12,alt:-86,slope:6,rocks:12,soil:"Playa seca",waterProb:.12,
+minerals:[{n:"Boratos",p:70,c:"var(--cyan)"},{n:"Evaporitas",p:80,c:"var(--amber)"},{n:"Carbonatos",p:45,c:"var(--teal)"},{n:"Cuarzo",p:55,c:"var(--red)"}],
+equiv:"Análogo térmico extremo — temperaturas récord como ecuatorial marciano. Abanicos aluviales y playas secas.",
+radar:{e:[95,12,18,65,85,20],r:[92,8,22,70,88,25]},instruments:["MEDA","MastCam","APXS","SuperCam","SAM"]},
+{id:15,name:"Mauna Kea",country:"Hawái",lat:19.82,lng:-155.47,planet:"moon",temp:2,pres:620,wind:50,hum:8,uv:15,alt:4207,slope:9,rocks:30,soil:"Basalto lunar",waterProb:.02,
+minerals:[{n:"Basalto",p:85,c:"var(--amber)"},{n:"Olivino",p:60,c:"var(--teal)"},{n:"Piroxeno",p:70,c:"var(--cyan)"},{n:"Plagioclasa",p:55,c:"var(--red)"}],
+equiv:"Análogo a tierras altas lunares — basalto con composición mineral cercana a muestras Apollo. Cumbre simula regolito meteorizado.",
+radar:{e:[45,15,70,40,88,75],r:[40,10,75,45,90,80]},instruments:["MAHLI","APXS","Drill","MastCam","RIMFAX"]},
+{id:16,name:"Cráter Ries",country:"Alemania",lat:48.85,lng:10.61,planet:"moon",temp:10,pres:1015,wind:12,hum:70,uv:5,alt:430,slope:4,rocks:35,soil:"Suevita impacto",waterProb:.85,
+minerals:[{n:"Suevita",p:80,c:"var(--amber)"},{n:"Brechas",p:70,c:"var(--red)"},{n:"Vidrio imp.",p:60,c:"var(--cyan)"},{n:"Feldespato",p:50,c:"var(--teal)"}],
+equiv:"Cráter de impacto de 24 km — suevita idéntica a muestras Apollo. Brechas y vidrio fundido como en Copérnico y Tycho.",
+radar:{e:[58,72,20,55,32,25],r:[55,68,25,60,35,30]},instruments:["RIMFAX","Drill","PIXL","SHERLOC","APXS"]}
+];
+const RL=['Temp','Humedad','Presión','Viento','UV','Altitud'];
+
+// ═══════ ZONAS ESPECÍFICAS DE MARTE Y LA LUNA (PERFILES NASA) ═══════
+const PLANETARY_TARGETS = [
+  {id:"m_jezero",name:"Cráter Jezero",planet:"mars",body:"♂ Marte",type:"Delta lacustre / Paleolago",coords:"18.38° N, 77.58° E",climate:{temp:-60,pres:6.1,wind:30,hum:0.1,uv:12},morphology:{slope:7,rocks:22},minerals:{"Arcillas":80,"Carbonatos":75,"Sulfatos":60,"Olivino":70},volatiles:0.25,desc:"Delta aluvial rico en arcillas y carbonatos (Perseverance)."},
+  {id:"m_gale",name:"Cráter Gale (Mt. Sharp)",planet:"mars",body:"♂ Marte",type:"Estratos lacustres secuenciales",coords:"5.40° S, 137.81° E",climate:{temp:-55,pres:7.5,wind:25,hum:0.2,uv:11},morphology:{slope:12,rocks:28},minerals:{"Sulfatos":85,"Hematita":75,"Arcillas":65,"Basalto":50},volatiles:0.30,desc:"Estratos sedimentarios de transición lacustre con sulfatos (Curiosity)."},
+  {id:"m_meridiani",name:"Meridiani Planum",planet:"mars",body:"♂ Marte",type:"Planicie evaporítica ácida",coords:"0.20° N, 357.50° E",climate:{temp:-60,pres:6.0,wind:28,hum:0.05,uv:13},morphology:{slope:3,rocks:10},minerals:{"Hematita":90,"Jarosita":80,"Percloratos":65,"Sulfatos":70},volatiles:0.08,desc:"Esférulas de hematita y regolito rico en jarosita y percloratos (Opportunity)."},
+  {id:"m_olympus",name:"Olympus Mons / Tharsis",planet:"mars",body:"♂ Marte",type:"Escudo volcánico / Tubos de lava",coords:"18.65° N, 226.20° E",climate:{temp:-70,pres:1.5,wind:45,hum:0.01,uv:15},morphology:{slope:15,rocks:35},minerals:{"Basalto":95,"Piroxeno":75,"Olivino":65,"Magnetita":50},volatiles:0.02,desc:"Flujos basálticos masivos y tubos de lava como refugios de radiación."},
+  {id:"m_utopia",name:"Utopia Planitia",planet:"mars",body:"♂ Marte",type:"Planicie periglacial / Hielo fósil",coords:"49.70° N, 118.00° E",climate:{temp:-75,pres:5.5,wind:35,hum:1.0,uv:8},morphology:{slope:4,rocks:14},minerals:{"Basalto":70,"Sal gema":45,"Sulfatos":40,"Carbonatos":30},volatiles:0.65,desc:"Manto de hielo de agua subterráneo con polígonos de contracción térmica (Zhurong)."},
+  {id:"m_valles",name:"Valles Marineris",planet:"mars",body:"♂ Marte",type:"Cañón tectónico gigante",coords:"13.90° S, 300.80° E",climate:{temp:-50,pres:8.5,wind:40,hum:0.15,uv:12},morphology:{slope:25,rocks:40},minerals:{"Óx. Hierro":85,"Arenisca":80,"Sulfatos":60,"Basalto":55},volatiles:0.15,desc:"Garganta de 7 km de profundidad con estratos y deslizamientos de terreno."},
+  {id:"l_shackleton",name:"Cráter Shackleton (Polo Sur)",planet:"moon",body:"☽ Luna",type:"Región en sombra permanente (PSR)",coords:"89.90° S, 0.00° E",climate:{temp:-180,pres:0,wind:0,hum:0,uv:15},morphology:{slope:28,rocks:35},minerals:{"Anortosita":85,"Hielo volátil":75,"Plagioclasa":80,"Piroxeno":40},volatiles:0.80,desc:"Depósitos de hielo de agua criogénicos y picos de luz eterna (Artemis)."},
+  {id:"l_tranquillitatis",name:"Mare Tranquillitatis",planet:"moon",body:"☽ Luna",type:"Mar basáltico rico en titanio",coords:"8.50° N, 31.40° E",climate:{temp:-20,pres:0,wind:0,hum:0,uv:15},morphology:{slope:3,rocks:18},minerals:{"Ilmenita":80,"Basalto":90,"Piroxeno":75,"Plagioclasa":55},volatiles:0.01,desc:"Basaltos con alto tenor de ilmenita para extracción de oxígeno ISRU (Apollo 11)."},
+  {id:"l_tycho",name:"Cráter Tycho / Copérnico",planet:"moon",body:"☽ Luna",type:"Impacto complejo con pico central",coords:"43.30° S, 11.20° W",climate:{temp:-20,pres:0,wind:0,hum:0,uv:15},morphology:{slope:22,rocks:45},minerals:{"Suevita":80,"Brechas":85,"Vidrio imp.":70,"Anortosita":75},volatiles:0.02,desc:"Brechas de impacto clásticas y eyección profunda con material del manto lunar."},
+  {id:"l_procellarum",name:"Oceanus Procellarum",planet:"moon",body:"☽ Luna",type:"Terreno KREEP / Vulcanismo joven",coords:"18.40° N, 57.40° W",climate:{temp:-15,pres:0,wind:0,hum:0,uv:15},morphology:{slope:2,rocks:12},minerals:{"Basalto":85,"Plagioclasa":65,"Piroxeno":70,"Olivino":50},volatiles:0.03,desc:"Anomalía de tierras raras, potasio y fósforo (KREEP basáltico Chang'e 5)."}
+];
+
+// ═══════ CANDIDATAS DE DESCUBRIMIENTO TERRESTRE AUTOMATIZADO ═══════
+const DISCOVERY_CANDIDATES = [
+  {name:"Salar de Arizaro",country:"Argentina (Puna)",lat:-24.70,lng:-67.75,alt:3460,slope:3,rocks:8,soil:"Salar evaporítico con sulfatos y halita",waterProb:0.08,targetPlanet:"mars",minerals:[{n:"Halita",p:75,c:"var(--cyan)"},{n:"Sulfatos",p:70,c:"var(--teal)"},{n:"Yeso",p:65,c:"var(--amber)"},{n:"Óx. Hierro",p:45,c:"var(--red)"}],equiv:"Análogo de alta Puna a paleolagos de evaporitas en Meridiani Planum y Gale. Radiación UV extrema y aridez extrema.",instruments:["XRD","APXS","Drill","MastCam","SAM"]},
+  {name:"Desierto de Qaidam",country:"Tíbet / China",lat:37.15,lng:94.25,alt:2800,slope:6,rocks:18,soil:"Playas salinas y dunas periglaciares",waterProb:0.12,targetPlanet:"mars",minerals:[{n:"Percloratos",p:50,c:"var(--cyan)"},{n:"Sulfatos",p:75,c:"var(--teal)"},{n:"Arcillas",p:55,c:"var(--amber)"},{n:"Polvo eólico",p:60,c:"var(--red)"}],equiv:"El mayor desierto hiperárido de gran altitud de la Tierra. Yardangs y depósitos de sulfatos análogos al ecuador marciano.",instruments:["ChemCam","SAM","SHERLOC","MAHLI","MEDA"]},
+  {name:"Desierto de Lut (Dasht-e Lut)",country:"Irán",lat:30.60,lng:58.80,alt:300,slope:5,rocks:15,soil:"Regolito hiperárido / Yardangs",waterProb:0.02,targetPlanet:"mars",minerals:[{n:"Óx. Hierro",p:85,c:"var(--red)"},{n:"Yeso",p:65,c:"var(--amber)"},{n:"Cuarzo",p:55,c:"var(--cyan)"},{n:"Halita",p:40,c:"var(--teal)"}],equiv:"Polo térmico terrestre registrado por satélites de NASA (hasta 70.7°C). Modelado de erosión eólica extrema análoga a Valles Marineris.",instruments:["MEDA","MastCam","APXS","SuperCam","RIMFAX"]},
+  {name:"Glaciar Taylor (Blood Falls)",country:"Antártida",lat:-77.72,lng:162.27,alt:1050,slope:8,rocks:12,soil:"Salmuera subglacial rica en hierro",waterProb:0.40,targetPlanet:"mars",minerals:[{n:"Óx. Hierro",p:90,c:"var(--red)"},{n:"Sulfatos",p:75,c:"var(--amber)"},{n:"Sal gema",p:60,c:"var(--teal)"},{n:"Halita",p:50,c:"var(--cyan)"}],equiv:"Análogo astrobiológico crítico para refugios de salmueras subsuperficiales en Utopia Planitia y casquetes polares marcianos.",instruments:["SHERLOC","PIXL","Drill","SAM","RIMFAX"]},
+  {name:"Cráter Lonar",country:"India",lat:19.98,lng:76.51,alt:560,slope:16,rocks:38,soil:"Basalto de impacto / Maskelinita",waterProb:0.50,targetPlanet:"moon",minerals:[{n:"Basalto",p:85,c:"var(--amber)"},{n:"Vidrio imp.",p:75,c:"var(--cyan)"},{n:"Piroxeno",p:65,c:"var(--teal)"},{n:"Plagioclasa",p:60,c:"var(--red)"}],equiv:"Cráter de impacto de hipervelocidad en basalto en la Tierra, análogo directo a impactos en los mares lunares (Mare Tranquillitatis).",instruments:["APXS","XRD","PIXL","SuperCam","Drill"]},
+  {name:"Valle de Haughton",country:"Isla Devon (Ártico)",lat:75.38,lng:-89.68,alt:250,slope:7,rocks:30,soil:"Brechas hidrotermales de impacto",waterProb:0.35,targetPlanet:"mars",minerals:[{n:"Dolomita",p:65,c:"var(--teal)"},{n:"Yeso",p:70,c:"var(--amber)"},{n:"Suevita",p:75,c:"var(--cyan)"},{n:"Sulfatos",p:55,c:"var(--red)"}],equiv:"Impacto en lecho sedimentario con actividad hidrotermal post-impacto, análogo perfecto a los cráteres Jezero y Gale.",instruments:["SHERLOC","Drill","SuperCam","RIMFAX","SAM"]},
+  {name:"Chott el Djerid",country:"Túnez",lat:33.70,lng:8.40,alt:15,slope:2,rocks:6,soil:"Costra de sal evaporítica",waterProb:0.20,targetPlanet:"mars",minerals:[{n:"Halita",p:80,c:"var(--cyan)"},{n:"Yeso",p:75,c:"var(--amber)"},{n:"Sulfatos",p:65,c:"var(--teal)"},{n:"Arcillas",p:40,c:"var(--red)"}],equiv:"Cuenca endorreica con costras salinas gruesas que preservan biofirmas químicas en ciclos estacionales marcianos.",instruments:["APXS","XRD","MastCam","SAM","MEDA"]},
+  {name:"Pico de Orizaba (Páramo)",country:"México",lat:19.03,lng:-97.27,alt:4600,slope:18,rocks:35,soil:"Andesítico / Criogénico",waterProb:0.25,targetPlanet:"mars",minerals:[{n:"Basalto",p:75,c:"var(--cyan)"},{n:"Piroxeno",p:65,c:"var(--teal)"},{n:"Vidrio imp.",p:55,c:"var(--amber)"},{n:"Óx. Hierro",p:50,c:"var(--red)"}],equiv:"Análogo de gran altitud a los volcanes de Elysium y Tharsis. Presión barométrica reducida (~570 hPa) y alta radiación UV.",instruments:["SuperCam","APXS","MEDA","MastCam","MAHLI"]}
+];
+
+let lastDiscoveredSite = null;
+let lastDiscoveryMatches = null;
+
+// ═══════ DESCUBRIMIENTO AUTOMATIZADO & COMPARACIÓN CUANTITATIVA ═══════
+function openDiscoveryModal(){
+  document.getElementById('mDisc').classList.add('open');
+  initDiscoveryCandidatesUI();
+}
+
+function closeDiscoveryModal(){
+  document.getElementById('mDisc').classList.remove('open');
+}
+
+function initDiscoveryCandidatesUI(){
+  const sel=document.getElementById('selCand');
+  if(!sel)return;
+  const prev=sel.value;
+  sel.innerHTML=DISCOVERY_CANDIDATES.map((c,i)=>{
+    const alreadyAdded=SITES.some(s=>s.name.toLowerCase()===c.name.toLowerCase());
+    return `<option value="${i}">${tr(c.name)} (${tr(c.country)}) — ${c.targetPlanet==='mars'?tr('♂ Análogo Marte'):tr('☽ Análogo Luna')}${alreadyAdded?tr(' [Ya Añadido]'):''}</option>`;
+  }).join('');
+  if(prev!=null&&prev!=='')sel.value=prev;
+}
+
+function runRandomDiscovery(){
+  const available=DISCOVERY_CANDIDATES.map((c,i)=>({c,i})).filter(x=>!SITES.some(s=>s.name.toLowerCase()===x.c.name.toLowerCase()));
+  const pool=available.length?available:DISCOVERY_CANDIDATES.map((c,i)=>({c,i}));
+  const picked=pool[Math.floor(Math.random()*pool.length)];
+  const sel=document.getElementById('selCand');
+  if(sel)sel.value=picked.i;
+  executeDiscovery();
+}
+
+async function fetchAndProcessScientificData(candidate){
+  const statusEl=document.getElementById('discStatus');
+  if(statusEl){
+    statusEl.style.display='block';
+    statusEl.textContent=tf('📡 Conectando a APIs científicas de NASA POWER para [{lat}°, {lng}°]...',{lat:candidate.lat.toFixed(2),lng:candidate.lng.toFixed(2)});
+  }
+  let finalTemp=candidate.temp||12;
+  let finalPres=Math.round(1013.25*Math.pow(1-(0.0065*(candidate.alt||500))/288.15,5.255));
+  let finalWind=candidate.wind||28;
+  let finalHum=candidate.hum||12;
+  let finalUV=candidate.uv||11;
+  let solarIrr=5.4;
+  let dataSource='Modelo Geoespacial Barométrico ISA',measuredPres=null;
+
+  try{
+    const controller=new AbortController();
+    const timeoutId=setTimeout(()=>controller.abort(),5500);
+    const res=await fetch(`https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=ALLSKY_SFC_SW_DWN,T2M,WS10M,PRECTOTCORR,ALLSKY_SFC_UV_INDEX,RH2M,PS&community=RE&longitude=${candidate.lng}&latitude=${candidate.lat}&format=JSON`,{signal:controller.signal});
+    clearTimeout(timeoutId);
+    if(res.ok){
+      const d=await res.json();
+      const params=d?.properties?.parameter||{};
+      const annual=k=>powerAnnual(params[k]);
+      const rh=annual('RH2M'),ps=annual('PS');
+      const t2m=annual('T2M');
+      const ws10m=annual('WS10M');
+      const uv=annual('ALLSKY_SFC_UV_INDEX');
+      const sIrr=annual('ALLSKY_SFC_SW_DWN');
+      const prec=annual('PRECTOTCORR');
+
+      if(t2m!==null)finalTemp=Math.round(t2m);
+      if(ws10m!==null)finalWind=Math.max(5,Math.round(ws10m*3.6));
+      if(uv!==null)finalUV=Math.max(1,Math.round(uv));
+      if(sIrr!==null)solarIrr=parseFloat(sIrr.toFixed(1));
+      if(rh!==null)finalHum=Math.max(1,Math.min(100,Math.round(rh)));
+      else if(prec!==null)finalHum=Math.max(2,Math.min(95,Math.round(prec*12)));
+      if(ps!==null)measuredPres=Math.round(ps*10); // kPa → hPa
+      dataSource='NASA POWER Open Data (Satélite Langley)';
+    }
+  }catch(err){
+    console.warn('Fallo consulta NASA POWER, usando modelo geofísico:', err.message);
+  }
+
+  finalPres=measuredPres!==null?measuredPres:Math.round(1013.25*Math.pow(1-(0.0065*(candidate.alt||0))/288.15,5.255));
+
+  const newSite={
+    id:SITES.length+1,
+    name:candidate.name,
+    country:candidate.country,
+    lat:candidate.lat,
+    lng:candidate.lng,
+    planet:candidate.targetPlanet||'mars',
+    temp:finalTemp,
+    pres:finalPres,
+    wind:finalWind,
+    hum:finalHum,
+    uv:finalUV,
+    alt:candidate.alt,
+    slope:candidate.slope,
+    rocks:candidate.rocks,
+    soil:candidate.soil,
+    waterProb:candidate.waterProb,
+    minerals:candidate.minerals,
+    equiv:candidate.equiv,
+    radar:{
+      e:[
+        Math.max(5,Math.min(100,Math.round((finalTemp+35)*1.3))),
+        Math.max(5,Math.min(100,Math.round(finalHum))),
+        Math.max(5,Math.min(100,Math.round((finalPres/1050)*100))),
+        Math.max(5,Math.min(100,Math.round(finalWind*1.2))),
+        Math.max(5,Math.min(100,Math.round(finalUV*6.5))),
+        Math.max(5,Math.min(100,Math.round((candidate.alt/5000)*100)))
+      ],
+      r:candidate.targetPlanet==='mars'?[85,10,90,75,88,65]:[50,5,20,10,95,75]
+    },
+    instruments:candidate.instruments||["APXS","XRD","ChemCam","MAHLI","SAM"],
+    _source:dataSource,
+    _solarIrr:solarIrr
+  };
+  return newSite;
+}
+
+function calculateQuantitativeMatch(terrestrialSite){
+  return PLANETARY_TARGETS.map(target=>{
+    const dTemp=Math.abs(terrestrialSite.temp-target.climate.temp);
+    const sTherm=Math.max(0,Math.min(100,Math.round(100*Math.exp(-Math.pow(dTemp,2)/3600))));
+
+    let sAtmos;
+    if(target.planet==='mars'){
+      const dPres=Math.abs(terrestrialSite.pres-target.climate.pres);
+      sAtmos=Math.max(0,Math.min(100,Math.round(100*Math.exp(-Math.pow(dPres,2)/600000))));
+    }else{
+      sAtmos=Math.max(0,Math.min(100,Math.round(100*(1-Math.min(terrestrialSite.pres,1050)/1050))));
+    }
+
+    const dSlope=Math.abs(terrestrialSite.slope-target.morphology.slope);
+    const dRocks=Math.abs(terrestrialSite.rocks-target.morphology.rocks);
+    const sGeom=Math.max(0,Math.min(100,Math.round(100*(1-dSlope/45)*(1-dRocks/80))));
+
+    let geoMatchCount=0,geoMatchTotal=0;
+    if(terrestrialSite.minerals&&terrestrialSite.minerals.length){
+      terrestrialSite.minerals.forEach(m=>{
+        const keys=Object.keys(target.minerals);
+        const match=keys.find(k=>k.toLowerCase().includes(m.n.toLowerCase())||m.n.toLowerCase().includes(k.toLowerCase()));
+        if(match){
+          geoMatchCount++;
+          geoMatchTotal+=(m.p+target.minerals[match])/2;
+        }
+      });
+    }
+    const sGeoq=Math.max(0,Math.min(100,Math.round(geoMatchCount>0?(geoMatchTotal/terrestrialSite.minerals.length)*1.15:28)));
+    const sRad=Math.max(0,Math.min(100,Math.round(100*(1-Math.abs(terrestrialSite.uv-target.climate.uv)/15))));
+    const sVol=Math.max(0,Math.min(100,Math.round(100*(1-Math.abs(terrestrialSite.waterProb-target.volatiles)))));
+
+    const totalScore=Math.max(0,Math.min(100,Math.round(
+      sGeoq*0.25+sAtmos*0.20+sTherm*0.15+sGeom*0.20+sRad*0.10+sVol*0.10
+    )));
+
+    return {target,scores:{total:totalScore,geoq:sGeoq,atmos:sAtmos,therm:sTherm,geom:sGeom,rad:sRad,vol:sVol}};
+  }).sort((a,b)=>b.scores.total-a.scores.total);
+}
+
+async function executeDiscovery(){
+  const sel=document.getElementById('selCand');
+  const idx=parseInt(sel?.value||0);
+  const cand=DISCOVERY_CANDIDATES[idx]||DISCOVERY_CANDIDATES[0];
+  const btn=document.getElementById('bRunDisc');
+  if(btn){btn.disabled=true;btn.textContent=tr('⏳ Descargando y procesando datos NASA...');}
+
+  const newSite=await fetchAndProcessScientificData(cand);
+  const matches=calculateQuantitativeMatch(newSite);
+  lastDiscoveredSite=newSite;
+  lastDiscoveryMatches=matches;
+
+  const best=matches[0];
+  newSite.planet=best.target.planet;
+  newSite.equiv=`${cand.equiv} [Mejor Coincidencia: ${best.target.name} (${best.target.body}) con ${best.scores.total}% de similitud cuantitativa].`;
+  newSite._baseEquiv=cand.equiv;newSite._best={t:best.target.name,b:best.target.body,p:best.scores.total};
+  renderDiscoveryResults();
+}
+
+// Renders the discovery panel for the last processed candidate (re-run on language change)
+function renderDiscoveryResults(){
+  const newSite=lastDiscoveredSite,matches=lastDiscoveryMatches;
+  if(!newSite||!matches)return;
+  const statusEl=document.getElementById('discStatus');
+  if(statusEl){
+    statusEl.style.display='block';
+    statusEl.innerHTML=tf('✅ <strong>{n}</strong> procesado · Fuente: {src}',{n:tr(newSite.name),src:tr(newSite._source)});
+  }
+
+  const grid=document.getElementById('discMetricsGrid');
+  if(grid){
+    grid.innerHTML=`
+      <div class="tc"><div class="tv" style="color:var(--red)">${newSite.temp}</div><div class="tu">°C</div><div class="tl">${tr('Temperatura')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--purple)">${newSite.pres}</div><div class="tu">hPa</div><div class="tl">${tr('Presión Barom.')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--cyan)">${newSite.wind}</div><div class="tu">km/h</div><div class="tl">${tr('Viento')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--teal)">${newSite.hum}</div><div class="tu">%</div><div class="tl">${tr('Humedad')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--amber)">${newSite.uv}</div><div class="tu">idx</div><div class="tl">${tr('Índice UV')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--white)">${newSite._solarIrr}</div><div class="tu">kWh/m²</div><div class="tl">${tr('Irradiancia Solar')}</div></div>
+    `;
+  }
+
+  const tbody=document.getElementById('tblPlanetaryMatchBody');
+  if(tbody){
+    tbody.innerHTML=matches.map((m,i)=>{
+      const isTop=i===0;
+      const col=m.scores.total>70?'var(--teal)':m.scores.total>45?'var(--cyan)':'var(--amber)';
+      return `
+        <tr style="${isTop?'background:rgba(0,255,163,.08);font-weight:700':''}">
+          <td>${tr(m.target.name)} ${isTop?'<span style="font-size:.5rem;color:var(--teal);border:1px solid var(--teal);padding:1px 4px;border-radius:4px;margin-left:4px">'+tr('MEJOR ANÁLOGO')+'</span>':''}</td>
+          <td style="color:${m.target.planet==='mars'?'var(--cyan)':'var(--amber)'}">${tr(m.target.body)}</td>
+          <td style="font-size:.52rem;color:var(--muted)">${tr(m.target.type)}</td>
+          <td>${m.scores.geoq}%</td>
+          <td>${m.scores.atmos}%</td>
+          <td>${m.scores.therm}%</td>
+          <td>${m.scores.geom}%</td>
+          <td style="text-align:right;font-family:var(--fm);font-weight:700;color:${col}">${m.scores.total}%</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  const resDiv=document.getElementById('discResults');
+  if(resDiv)resDiv.style.display='flex';
+  const btn=document.getElementById('bRunDisc');
+  if(btn){btn.disabled=false;btn.textContent=tr('⚡ Descargar Datos Científicos NASA & Comparar Cuantitativamente');}
+}
+
+function addMarkerForSite(s){
+  if(!mGrp)return;
+  const pos=llv(s.lat,s.lng,1.52),col=s.planet==='mars'?0x00e5ff:0xffb703;
+  const pin=new THREE.Mesh(new THREE.SphereGeometry(.018,16,16),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.9}));
+  pin.position.copy(pos);pin.userData={siteId:s.id};mGrp.add(pin);
+  const ring=new THREE.Mesh(new THREE.RingGeometry(.022,.032,32),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.4,side:THREE.DoubleSide}));
+  ring.position.copy(pos);ring.lookAt(0,0,0);mGrp.add(ring);
+  mkrs.push({pin,ring,site:s});
+}
+
+function integrateDiscoveredSite(){
+  if(!lastDiscoveredSite)return;
+  const existingIdx=SITES.findIndex(s=>s.name.toLowerCase()===lastDiscoveredSite.name.toLowerCase());
+  let targetId;
+  if(existingIdx===-1){
+    targetId=SITES.length+1;
+    lastDiscoveredSite.id=targetId;
+    SITES.push(lastDiscoveredSite);
+    addMarkerForSite(lastDiscoveredSite);
+    buildList();
+    updCount();
+  }else{
+    targetId=SITES[existingIdx].id;
+    SITES[existingIdx]=Object.assign(SITES[existingIdx],lastDiscoveredSite,{id:targetId});
+    buildList();
+  }
+  closeDiscoveryModal();
+  selectSite(targetId);
+}
+
+// ─── STATE ───
+let gK=localStorage.getItem('ng_gk')||'',nK=localStorage.getItem('ng_nk')||'',sel=SITES[0],rdr=null;
+let rpCh=null,crCh=null,crdCh=null,cstCh=null,delCh=null;
+let scene,camera,renderer,controls,earth,clouds,atmos,mGrp;
+let thermCanvasTexture=null;
+let rotOn=true,siteLocked=false;
+const clk=new THREE.Clock(),ray=new THREE.Raycaster(),ms=new THREE.Vector2(),mkrs=[];
+const TX={e:'https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg',b:'https://unpkg.com/three-globe/example/img/earth-topology.png',n:'https://unpkg.com/three-globe/example/img/earth-night.jpg',w:'https://unpkg.com/three-globe/example/img/earth-water.png'};
+
+// ─── BOOT ───
+let booted=false;
+window.addEventListener('DOMContentLoaded',()=>{
+  setLang(LANG);
+  buildList();initUI();initThree();initRadar();initRSlid();initCSlid();
+  updateDots();startClk();
+  updCount();booted=true;
+  setTimeout(()=>{selectSite(1,{lock:false,fly:false});recalcR();recalcC();recalcM()},600);
+});
+
+// ═══════ LANGUAGE REFRESH (ES ⇄ EN) ═══════
+// Re-renders every piece of JS-generated text in the current language without
+// touching the globe, the camera, slider values or any running animation.
+function refreshLang(){
+  if(!booted)return;
+  buildList();updCount();updRotUI();initDiscoveryCandidatesUI();
+  const rb=document.getElementById('bRunDisc');
+  if(rb&&!rb.disabled){
+    rb.textContent=tr('⚡ Descargar Datos Científicos NASA & Comparar Cuantitativamente');
+    if(document.getElementById('discResults')?.style.display==='flex')renderDiscoveryResults();
+  }
+  const pb=document.getElementById('pwrBtn');if(pb&&!pb.disabled)pb.textContent=tr('📡 Consultar NASA POWER API');
+  document.querySelectorAll('[data-tr]').forEach(el=>el.textContent=tr(el.dataset.tr));
+  if(sel)renderSiteText(sel);
+  RP.concat(CP).forEach(p=>{
+    const inp=document.getElementById(p.id),v=document.getElementById(p.id+'V');
+    if(inp&&inp.previousElementSibling)inp.previousElementSibling.textContent=tr(p.l);
+    if(inp&&v)v.textContent=inp.value+' '+tr(p.u);
+  });
+  if(rdr){rdr.data.labels=RL.map(tr);rdr.data.datasets[0].label=tr('Análogo');rdr.data.datasets[1].label=tr('Ref. NASA');rdr.update();}
+  if(rpCh){['Solar (W)','Consumo (W)','Batería (Wh)'].forEach((l,i)=>rpCh.data.datasets[i].label=tr(l));rpCh.update();}
+  if(crCh){crCh.data.labels=CR_LBL.map(tr);crCh.data.datasets[0].label=tr('Consumo');crCh.update();}
+  if(crdCh){crdCh.data.datasets[0].label=tr('Dosis Acumulada (mSv)');crdCh.data.datasets[1].label=tr('Límite Carrera NASA (1000 mSv)');crdCh.update();}
+  if(cstCh){cstCh.data.labels=CST_LBL.map(tr);cstCh.update();}
+  if(delCh){delCh.data.datasets[0].label=tr('Retardo (min)');delCh.data.datasets[1].label=tr('Distancia (Mkm)');delCh.update();}
+  recalcM();
+  if(nasaLoaded)fetchNASA();
+}
+
+// ═══════ THREE.JS ═══════
+function initThree(){
+  const cv=document.getElementById('gc'),vp=document.getElementById('vp');
+  scene=new THREE.Scene();
+  camera=new THREE.PerspectiveCamera(45,vp.clientWidth/vp.clientHeight,.1,2000);
+  camera.position.set(0,1.2,4.5);
+  renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(vp.clientWidth,vp.clientHeight);
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;
+  controls=new THREE.OrbitControls(camera,cv);
+  Object.assign(controls,{enableDamping:true,dampingFactor:.06,rotateSpeed:.5,zoomSpeed:.8,minDistance:1.8,maxDistance:12,enablePan:false});
+  scene.add(new THREE.AmbientLight(0x334466,.5));
+  const s=new THREE.DirectionalLight(0xffffff,1.6);s.position.set(5,3,5);scene.add(s);
+  const r=new THREE.DirectionalLight(0x4488ff,.3);r.position.set(-5,-2,-5);scene.add(r);
+  mkStars();loadGlobe();
+  mGrp=new THREE.Group();scene.add(mGrp);
+  window.addEventListener('resize',onRsz);
+  cv.addEventListener('click',onClk);cv.addEventListener('mousemove',onMv);
+  document.getElementById('zi').onclick=()=>zoomBy(.8);
+  document.getElementById('zo').onclick=()=>zoomBy(1.25);
+  document.getElementById('zr').onclick=rstCam;
+  document.getElementById('zp').onclick=toggleRot;
+  document.getElementById('zx').onclick=clearSite;
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&siteLocked&&!document.querySelector('.mo.open')&&!/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))clearSite()});
+  anim();
+}
+function mkStars(){const g=new THREE.BufferGeometry(),n=10000,p=new Float32Array(n*3);for(let i=0;i<n;i++){const r=400+Math.random()*600,t=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p[i*3]=r*Math.sin(ph)*Math.cos(t);p[i*3+1]=r*Math.sin(ph)*Math.sin(t);p[i*3+2]=r*Math.cos(ph)}g.setAttribute('position',new THREE.BufferAttribute(p,3));scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xffffff,size:.7,sizeAttenuation:true,transparent:true,opacity:.8})))}
+function loadGlobe(){
+  const mgr=new THREE.LoadingManager(),ld=new THREE.TextureLoader(mgr),bar=document.getElementById('loadBar');
+  let ct=0;const tot=4;
+  mgr.onProgress=()=>{ct++;bar.style.width=(ct/tot*100)+'%'};
+  mgr.onLoad=()=>{bar.style.width='100%';setTimeout(()=>{document.getElementById('loader').classList.add('hidden');document.getElementById('app').classList.add('visible');mkMkrs()},500)};
+  mgr.onError=()=>{bar.style.width='100%';setTimeout(()=>{document.getElementById('loader').classList.add('hidden');document.getElementById('app').classList.add('visible');mkMkrs()},500)};
+  const tx={};for(const[k,u]of Object.entries(TX))tx[k]=ld.load(u);
+  earth=new THREE.Mesh(new THREE.SphereGeometry(1.5,128,128),new THREE.MeshPhongMaterial({map:tx.e,bumpMap:tx.b,bumpScale:.04,specularMap:tx.w,specular:new THREE.Color(0x333333),shininess:15,emissiveMap:tx.n,emissive:new THREE.Color(0xffcc66),emissiveIntensity:.12}));
+  scene.add(earth);
+  const cc=document.createElement('canvas');cc.width=1024;cc.height=512;const cx=cc.getContext('2d');
+  for(let i=0;i<2500;i++){cx.beginPath();cx.arc(Math.random()*1024,Math.random()*512,Math.random()*35+5,0,Math.PI*2);cx.fillStyle=`rgba(255,255,255,${Math.random()*.1+.02})`;cx.fill()}
+  clouds=new THREE.Mesh(new THREE.SphereGeometry(1.52,96,96),new THREE.MeshPhongMaterial({map:new THREE.CanvasTexture(cc),transparent:true,opacity:.2,depthWrite:false,side:THREE.DoubleSide}));
+  scene.add(clouds);
+  atmos=new THREE.Mesh(new THREE.SphereGeometry(1.62,64,64),new THREE.ShaderMaterial({
+    vertexShader:'varying vec3 vN;varying vec3 vP;void main(){vN=normalize(normalMatrix*normal);vP=(modelMatrix*vec4(position,1.)).xyz;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+    fragmentShader:'varying vec3 vN;varying vec3 vP;uniform vec3 cp;void main(){vec3 vd=normalize(cp-vP);float i=pow(.68-dot(vN,vd),3.);i=clamp(i,0.,1.);gl_FragColor=vec4(mix(vec3(.15,.4,1.),vec3(.3,.7,1.),i),i*.6);}',
+    uniforms:{cp:{value:camera.position}},transparent:true,depthWrite:false,side:THREE.BackSide,blending:THREE.AdditiveBlending
+  }));scene.add(atmos);
+}
+function llv(a,o,r){const p=(90-a)*Math.PI/180,t=(o+180)*Math.PI/180;return new THREE.Vector3(-r*Math.sin(p)*Math.cos(t),r*Math.cos(p),r*Math.sin(p)*Math.sin(t))}
+function mkMkrs(){SITES.forEach(s=>{
+  const pos=llv(s.lat,s.lng,1.52),col=s.planet==='mars'?0x00e5ff:0xffb703;
+  const pin=new THREE.Mesh(new THREE.SphereGeometry(.018,16,16),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.9}));
+  pin.position.copy(pos);pin.userData={siteId:s.id};mGrp.add(pin);
+  const ring=new THREE.Mesh(new THREE.RingGeometry(.022,.032,32),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.4,side:THREE.DoubleSide}));
+  ring.position.copy(pos);ring.lookAt(0,0,0);mGrp.add(ring);
+  mkrs.push({pin,ring,site:s});
+})}
+function onClk(e){
+  const rect=renderer.domElement.getBoundingClientRect();
+  ms.x=((e.clientX-rect.left)/rect.width)*2-1;
+  ms.y=-((e.clientY-rect.top)/rect.height)*2+1;
+  ray.setFromCamera(ms,camera);
+  const h=ray.intersectObjects(mkrs.map(m=>m.pin));
+  if(h.length) selectSite(h[0].object.userData.siteId);
+}
+function onMv(e){
+  const rect=renderer.domElement.getBoundingClientRect();
+  ray.setFromCamera(new THREE.Vector2(((e.clientX-rect.left)/rect.width)*2-1,-((e.clientY-rect.top)/rect.height)*2+1),camera);
+  const h=ray.intersectObject(earth);
+  if(h.length){
+    const p=earth.worldToLocal(h[0].point.clone()),lat=90-Math.acos(Math.max(-1,Math.min(1,p.y/p.length())))*180/Math.PI,lng=((Math.atan2(p.z,-p.x)*180/Math.PI-180+540)%360)-180;
+    document.getElementById('chd').textContent=`LAT ${lat.toFixed(3)} · LNG ${lng.toFixed(3)}`;
+    document.getElementById('fCd').textContent=`LAT ${lat.toFixed(3)} · LNG ${lng.toFixed(3)}`;
+  }
+}
+// Zoom along the camera→centre axis so the locked site stays exactly in the middle of the view
+function zoomBy(f){
+  const d=camera.position.length(),nd=Math.max(controls.minDistance,Math.min(d*f,controls.maxDistance)),t=camera.position.clone().setLength(nd);
+  gsap.to(camera.position,{x:t.x,y:t.y,z:t.z,duration:.5,ease:'power2.out'});
+}
+// Remove any leftover OrbitControls damping momentum so the camera can't drift off a site
+function haltControls(){if(!controls)return;const d=controls.enableDamping;controls.enableDamping=false;controls.update();controls.enableDamping=d}
+// Fly the camera along a great-circle arc (never through the globe) and end exactly above lat/lng
+let flyTw=null;
+function flyTo(a,o){
+  haltControls();
+  const t=llv(a,o,3.2);if(earth)t.applyAxisAngle(new THREE.Vector3(0,1,0),earth.rotation.y);
+  const r0=camera.position.length(),r1=t.length(),d0=camera.position.clone().normalize(),d1=t.clone().normalize();
+  const q0=new THREE.Quaternion(),q1=new THREE.Quaternion().setFromUnitVectors(d0,d1),q=new THREE.Quaternion(),st={k:0};
+  if(flyTw)flyTw.kill();
+  flyTw=gsap.to(st,{k:1,duration:1.8,ease:'power2.inOut',onUpdate:()=>{
+    q.copy(q0).slerp(q1,st.k);
+    camera.position.copy(d0).applyQuaternion(q).setLength(r0+(r1-r0)*st.k);
+    camera.lookAt(0,0,0);controls.target.set(0,0,0);
+  },onComplete:()=>{camera.position.copy(t);camera.lookAt(0,0,0);controls.target.set(0,0,0);haltControls();flyTw=null}});
+}
+function rstCam(){haltControls();if(flyTw){flyTw.kill();flyTw=null}gsap.to(camera.position,{x:0,y:1.2,z:4.5,duration:1.2,ease:'power2.inOut',onUpdate:()=>{camera.lookAt(0,0,0);controls.target.set(0,0,0)}})}
+function onRsz(){
+  const c=document.getElementById('vp');if(!c)return;
+  camera.aspect=c.clientWidth/c.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(c.clientWidth,c.clientHeight);
+}
+function anim(){
+  requestAnimationFrame(anim);
+  const dt=clk.getDelta(),el=clk.getElapsedTime();
+  if(rotOn&&!siteLocked){
+    if(earth)earth.rotation.y+=dt*.03;
+    if(clouds)clouds.rotation.y+=dt*.045;
+  }
+  if(earth&&mGrp)mGrp.rotation.y=earth.rotation.y;
+  if(atmos)atmos.material.uniforms.cp.value.copy(camera.position);
+  mkrs.forEach((m,i)=>{
+    const s=1+Math.sin(el*2+i*.5)*.3;
+    m.ring.scale.set(s,s,s);
+    m.ring.material.opacity=.15+Math.sin(el*2+i*.5)*.15;
+  });
+  controls.update();
+  renderer.render(scene,camera);
+}
+
+// ═══════ ANALOGUE FIDELITY INDEX (AFI) ═══════
+function calcAFI(s){
+  const marsRef={temp:-60,pres:6.1,hum:0,uv:12,wind:30,alt:0};
+  const moonRef={temp:-20,pres:0,hum:0,uv:15,wind:0,alt:0};
+  const ref=s.planet==='mars'?marsRef:moonRef;
+  const geoChem=Math.min(100, s.minerals.reduce((a,m)=>a+m.p,0)/s.minerals.length * 1.2);
+  const atmosF=s.planet==='mars'?100*Math.exp(-Math.pow(s.pres-ref.pres,2)/500000):100*(1-Math.min(s.pres,1100)/1100);
+  const thermF=100*Math.exp(-Math.pow(s.temp-ref.temp,2)/2500);
+  const geoMorph=100*(1-s.slope/45)*(1-s.rocks/80);
+  const radF=100*Math.min(s.uv/ref.uv,1.5)/1.5;
+  const hydroF=s.planet==='mars'?100*(1-s.hum/100):100*(1-s.waterProb);
+  const factors=[
+    {name:'Geoq.',score:geoChem,weight:.25,color:'var(--cyan)'},
+    {name:'Atmos.',score:atmosF,weight:.20,color:'var(--purple)'},
+    {name:'Térm.',score:thermF,weight:.15,color:'var(--red)'},
+    {name:'Geom.',score:geoMorph,weight:.20,color:'var(--teal)'},
+    {name:'Rad.',score:radF,weight:.10,color:'var(--amber)'},
+    {name:'Hidro.',score:hydroF,weight:.10,color:'var(--blue)'}
+  ];
+  const total=Math.round(factors.reduce((a,f)=>a+f.score*f.weight,0));
+  return {total:Math.max(0,Math.min(100,total)),factors};
+}
+
+// ═══════ TRAVERSABILITY SCORE ═══════
+function calcTraversability(s){
+  const slopePenalty=Math.max(0, 1-s.slope/30);
+  const rockPenalty=Math.max(0, 1-s.rocks/50);
+  const soilFactor=s.waterProb<.3?0.9:s.waterProb<.6?0.7:0.5;
+  return Math.round(slopePenalty*rockPenalty*soilFactor*100);
+}
+
+// ═══════ UI LOGIC ═══════
+function siteEquiv(s){return s._best?tr(s._baseEquiv)+tf(' [Mejor Coincidencia: {t} ({b}) con {p}% de similitud cuantitativa].',{t:tr(s._best.t),b:tr(s._best.b),p:s._best.p}):tr(s.equiv)}
+function updCount(){const el=document.getElementById('sCt');if(el)el.textContent=tf('{n} ANÁLOGOS · 5 MÓDULOS',{n:SITES.length})}
+function buildList(){
+  const cur=document.querySelector('#slist .sc.active'),activeId=cur?+cur.dataset.id:(document.querySelector('#slist .sc')?null:1);
+  const q=(document.getElementById('sinp')?.value||'').toLowerCase();
+  document.getElementById('slist').innerHTML=SITES.map(s=>`
+    <div class="sc ${s.id===activeId?'active':''}" data-id="${s.id}" onclick="selectSite(${s.id})"${q&&!siteMatches(s,q)?' style="display:none"':''}>
+      <div class="sd ${s.planet}"></div>
+      <div><div class="sn">${tr(s.name)}</div><div class="scn">${tr(s.country)}</div></div>
+      <div class="stg">${s.planet==='mars'?'♂':'☽'}</div>
+    </div>`).join('');
+}
+
+// ─── ROTATION CONTROL ───
+function updRotUI(){
+  const spinning=rotOn&&!siteLocked,b=document.getElementById('zp'),x=document.getElementById('zx');
+  if(b){b.textContent=spinning?'⏸':'▶';const t=tr(spinning?'Detener rotación':'Reanudar rotación');b.title=t;b.setAttribute('aria-label',t);b.style.color=spinning?'':'var(--cyan)'}
+  if(x)x.style.display=siteLocked?'flex':'none';
+  // While a site is locked the globe stays fixed on it: no auto-rotation and no drag-rotation (zoom still works)
+  if(controls){if(siteLocked&&controls.enableRotate)haltControls();controls.enableRotate=!siteLocked}
+}
+function toggleRot(){
+  if(siteLocked){siteLocked=false;rotOn=true;clearSiteUI();}
+  else rotOn=!rotOn;
+  updRotUI();
+}
+function clearSiteUI(){
+  document.querySelectorAll('.sc').forEach(c=>c.classList.remove('active'));
+  mkrs.forEach(m=>m.pin.scale.set(1,1,1));
+}
+function clearSite(){
+  siteLocked=false;rotOn=true;clearSiteUI();updRotUI();
+}
+
+function selectSite(id,opts){
+  const o=Object.assign({lock:true,fly:true},opts);
+  if(o.lock&&siteLocked&&sel&&sel.id===id){clearSite();return;}
+  const s=SITES.find(x=>x.id===id);if(!s)return;sel=s;
+  if(o.lock){siteLocked=true;updRotUI();}
+  document.querySelectorAll('.sc').forEach(c=>c.classList.remove('active'));
+  const card=document.querySelector(`.sc[data-id="${id}"]`);
+  if(card){card.classList.add('active');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  if(o.fly)flyTo(s.lat,s.lng);
+  renderSiteText(s);
+  aV('vT',s.temp);aV('vP',s.pres);aV('vW',s.wind);aV('vH',s.hum);aV('vU',s.uv);aV('vA',s.alt);
+  if(rdr){rdr.data.datasets[0].data=s.radar.e;rdr.data.datasets[1].data=s.radar.r;rdr.update();}
+  document.getElementById('mB').innerHTML=s.minerals.map(m=>`<div class="mb"><div class="mn">${tr(m.n)}</div><div class="mt"><div class="mf" style="width:0;background:${m.c}"></div></div><div class="mp">${m.p}%</div></div>`).join('');
+  setTimeout(()=>document.querySelectorAll('#mB .mf').forEach((b,i)=>b.style.width=s.minerals[i].p+'%'),50);
+  document.getElementById('eqS').style.display='block';
+  document.getElementById('pwrSec').style.display='block';
+  const afi=calcAFI(s);
+  const hbg=document.getElementById('hbg');hbg.classList.add('show');
+  document.getElementById('hsc').textContent=afi.total;
+  document.getElementById('hsc').style.color=afi.total>70?'var(--teal)':afi.total>40?'var(--amber)':'var(--red)';
+  document.getElementById('afiMini').innerHTML=afi.factors.map(f=>`<div class="afi-row"><div class="afi-lbl">${tr(f.name)}</div><div class="afi-bar"><div class="afi-fill" style="width:${f.score}%;background:${f.color}"></div></div></div>`).join('');
+  mkrs.forEach(m=>{const a=m.site.id===id;m.pin.scale.set(a?2:1,a?2:1,a?2:1)});
+  document.getElementById('fCd').textContent=`LAT ${s.lat.toFixed(3)} · LNG ${s.lng.toFixed(3)} · ALT ${s.alt}m`;
+  recalcR();recalcC();recalcM();
+}
+
+// Language-dependent text of the site panel (re-run on language change without re-flying the globe)
+function renderSiteText(s){
+  document.getElementById('sN').textContent=tr(s.name);
+  document.getElementById('sS').textContent=`${tr(s.country)} · ${s.lat.toFixed(2)}°, ${s.lng.toFixed(2)}°`;
+  document.getElementById('sBg').innerHTML=`<span class="eqb ${s.planet}">${tr(s.planet==='mars'?'♂ ANÁLOGO MARTE':'☽ ANÁLOGO LUNA')}</span>`;
+  document.getElementById('eqT').textContent=siteEquiv(s);
+  document.querySelectorAll('#mB .mn').forEach((el,i)=>{if(s.minerals[i])el.textContent=tr(s.minerals[i].n)});
+  const afi=calcAFI(s);
+  document.querySelectorAll('#afiMini .afi-lbl').forEach((el,i)=>{if(afi.factors[i])el.textContent=tr(afi.factors[i].name)});
+}
+
+function aV(id,tgt){const el=document.getElementById(id);const st=parseFloat(el.textContent)||0;gsap.to({v:st},{v:tgt,duration:1,ease:'power2.out',onUpdate:function(){el.textContent=this.targets()[0].v.toFixed(tgt%1?1:0)}})}
+
+function initUI(){
+  document.querySelectorAll('.tb').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.tb').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+    document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
+    const map={e:'pe',r:'pr2',c:'pc',m:'pm',n:'pn'};
+    document.getElementById(map[b.dataset.tab]).classList.add('active');
+    if(b.dataset.tab==='n')fetchNASA();
+    setTimeout(()=>{
+      window.dispatchEvent(new Event('resize'));
+      if(rpCh) rpCh.resize();
+      if(crCh) crCh.resize();
+      if(crdCh) crdCh.resize();
+      if(cstCh) cstCh.resize();
+      if(delCh) delCh.resize();
+    }, 150);
+  }));
+  document.getElementById('bk').onclick=()=>{document.getElementById('mKeys').classList.add('open');document.getElementById('iG').value=gK;document.getElementById('iN').value=nK};
+  document.getElementById('bCl').onclick=()=>document.getElementById('mKeys').classList.remove('open');
+  document.getElementById('bSv').onclick=()=>{gK=document.getElementById('iG').value.trim();nK=document.getElementById('iN').value.trim();localStorage.setItem('ng_gk',gK);localStorage.setItem('ng_nk',nK);updateDots();document.getElementById('mKeys').classList.remove('open')};
+  document.getElementById('mKeys').addEventListener('click',e=>{if(e.target.id==='mKeys')document.getElementById('mKeys').classList.remove('open')});
+
+  const bDisc=document.getElementById('bDisc');
+  if(bDisc)bDisc.onclick=openDiscoveryModal;
+  const bDiscCl=document.getElementById('bDiscCl');
+  if(bDiscCl)bDiscCl.onclick=closeDiscoveryModal;
+  const mDisc=document.getElementById('mDisc');
+  if(mDisc)mDisc.addEventListener('click',e=>{if(e.target.id==='mDisc')closeDiscoveryModal()});
+  initDiscoveryCandidatesUI();
+  document.getElementById('chatFab').onclick=()=>{document.getElementById('cw').classList.add('open');document.getElementById('chatFab').classList.add('hid')};
+  document.getElementById('chCl').onclick=()=>{document.getElementById('cw').classList.remove('open');document.getElementById('chatFab').classList.remove('hid')};
+  document.getElementById('chS').onclick=sendChat;
+  document.getElementById('chI').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
+  document.getElementById('sinp').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('.sc').forEach(c=>{const s=SITES.find(x=>x.id===+c.dataset.id);c.style.display=siteMatches(s,q)?'':'none'})});
+  document.getElementById('bLang').onclick=()=>setLang(LANG==='en'?'es':'en');
+  document.getElementById('bx').onclick=exportAll;
+  document.querySelectorAll('.lb2').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.lb2').forEach(x=>x.classList.remove('active'));b.classList.add('active');switchLy(b.dataset.ly)}));
+
+  const toggleCatBtn = document.getElementById('toggleCatalogBtn');
+  const toggleStatsBtn = document.getElementById('toggleStatsBtn');
+  const catPanel = document.getElementById('catalogPanel');
+  const statsPanel = document.getElementById('statsPanel');
+
+  if(toggleCatBtn && catPanel){
+    toggleCatBtn.onclick = () => {
+      catPanel.classList.toggle('mobile-open');
+      if(statsPanel) statsPanel.classList.remove('mobile-open');
+    };
+  }
+  if(toggleStatsBtn && statsPanel){
+    toggleStatsBtn.onclick = () => {
+      statsPanel.classList.toggle('mobile-open');
+      if(catPanel) catPanel.classList.remove('mobile-open');
+    };
+  }
+}
+
+// Search matches both the Spanish and English names
+function siteMatches(s,q){return [s.name,s.country,EN[s.name]||'',EN[s.country]||''].some(v=>v.toLowerCase().includes(q))}
+
+function updateDots(){document.getElementById('dk').className='dot '+((gK||nK)?'on':'');document.getElementById('dG').className='sd2 '+(gK?'ok':'off');document.getElementById('dN').className='sd2 '+(nK?'ok':'off')}
+
+function switchLy(l){
+  if(!earth)return;
+  const ld=new THREE.TextureLoader();
+  if(l==='sat'){
+    ld.load(TX.e,t=>{earth.material.map=t;earth.material.needsUpdate=true});
+  }else if(l==='therm'){
+    if(thermCanvasTexture){
+      thermCanvasTexture.dispose();
+    }
+    const c=document.createElement('canvas');c.width=512;c.height=256;const x=c.getContext('2d');
+    const g=x.createLinearGradient(0,0,0,256);
+    g.addColorStop(0,'#1a237e');g.addColorStop(.2,'#00897b');g.addColorStop(.45,'#fdd835');g.addColorStop(.7,'#ff8f00');g.addColorStop(1,'#b71c1c');
+    x.fillStyle=g;x.fillRect(0,0,512,256);
+    for(let i=0;i<1500;i++){
+      x.beginPath();x.arc(Math.random()*512,Math.random()*256,Math.random()*3+1,0,Math.PI*2);
+      x.fillStyle=`rgba(${Math.random()>0.5?255:0},${Math.random()>0.5?200:0},0,${Math.random()*.08})`;
+      x.fill();
+    }
+    thermCanvasTexture = new THREE.CanvasTexture(c);
+    earth.material.map=thermCanvasTexture;
+    earth.material.needsUpdate=true;
+  }else if(l==='topo'){
+    ld.load(TX.b,t=>{earth.material.map=t;earth.material.needsUpdate=true});
+  }
+}
+
+// ═══════ RADAR CHART ═══════
+function initRadar(){
+  rdr=new Chart(document.getElementById('rc').getContext('2d'),{
+    type:'radar',
+    data:{
+      labels:RL.map(tr),
+      datasets:[
+        {label:tr('Análogo'),data:[0,0,0,0,0,0],borderColor:'rgba(0,229,255,.7)',backgroundColor:'rgba(0,229,255,.08)',borderWidth:2,pointRadius:2,pointBackgroundColor:'rgba(0,229,255,.7)'},
+        {label:tr('Ref. NASA'),data:[0,0,0,0,0,0],borderColor:'rgba(255,183,3,.7)',backgroundColor:'rgba(255,183,3,.08)',borderWidth:2,pointRadius:2,pointBackgroundColor:'rgba(255,183,3,.7)'}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      scales:{
+        r:{
+          beginAtZero:true,max:100,
+          grid:{color:'rgba(255,255,255,.04)'},
+          angleLines:{color:'rgba(255,255,255,.06)'},
+          pointLabels:{color:'#7b8faa',font:{family:"'Chakra Petch'",size:8,weight:600}},
+          ticks:{display:false}
+        }
+      },
+      plugins:{legend:{labels:{color:'#7b8faa',font:{family:"'Chakra Petch'",size:8},boxWidth:7,padding:8}}},
+      animation:{duration:600}
+    }
+  });
+}
+
+// ═══════ ROVER CALCULATOR ═══════
+const RP=[
+  {l:'Masa del Rover',id:'rM',mn:100,mx:1200,v:900,u:'kg',s:50},
+  {l:'Área Paneles Solares',id:'rS',mn:1,mx:12,v:4.2,u:'m²',s:.1},
+  {l:'Eficiencia Panel',id:'rE',mn:10,mx:35,v:28,u:'%',s:1},
+  {l:'Capacidad Batería',id:'rB',mn:100,mx:2000,v:1100,u:'Wh',s:50},
+  {l:'Opacidad Polvo (τ)',id:'rD',mn:.3,mx:4,v:.8,u:'τ',s:.1},
+  {l:'Horas Conducción/Sol',id:'rH',mn:1,mx:8,v:4,u:'h',s:.5},
+  {l:'Latitud Operación',id:'rL',mn:0,mx:70,v:24,u:'°',s:1},
+  {l:'Dur. Misión Objetivo',id:'rDu',mn:30,mx:2000,v:668,u:'sols',s:10}
+];
+
+function initRSlid(){
+  document.getElementById('rSlid').innerHTML=RP.map(p=>`<div class="sr"><label>${tr(p.l)}</label><input type="range" id="${p.id}" min="${p.mn}" max="${p.mx}" value="${p.v}" step="${p.s}"><span class="sv" id="${p.id}V">${p.v} ${tr(p.u)}</span></div>`).join('');
+  RP.forEach(p=>{document.getElementById(p.id).addEventListener('input',function(){document.getElementById(p.id+'V').textContent=this.value+' '+tr(p.u);recalcR();recalcM();})});
+  initRCh();
+}
+function gv(id){return parseFloat(document.getElementById(id)?.value||0)}
+
+function recalcR(){
+  const s=sel,mass=gv('rM'),solar=gv('rS'),eff=gv('rE')/100,bat=gv('rB'),dust=gv('rD'),drH=gv('rH'),lat=gv('rL'),dur=gv('rDu');
+  const slope=s?s.slope:8,rocks=s?s.rocks:15;
+  const flux=590*Math.cos(lat*Math.PI/180),dustF=Math.exp(-dust),sH=12;
+  const peak=solar*eff*flux*dustF,dailyE=peak*sH,avgP=dailyE/24.6;
+  const driveP=mass*.15,sciP=65,commP=40,avioP=25,heatP=80;
+  const totalDraw=driveP+sciP+commP+avioP+heatP;
+  const margin=avgP-totalDraw,efficiency=Math.min(100,avgP/totalDraw*100);
+  const base=150,sF=Math.cos(slope*Math.PI/180)*(1-slope/45),rF=1-(rocks/100)*.7,mF=Math.max(.4,1-(mass-200)/2000);
+  const rate=base*sF*rF*mF,kmSol=rate*drH/1000;
+  const dsnW=8*60,dataR=256,dataMB=dataR*dsnW/8/1024;
+  const wLife=25*(1-(rocks/40)*.5)*(1-slope/90);
+  const sciRet=Math.min(100,(peak/totalDraw)*35+(kmSol/.5)*15+(dataMB/100)*20);
+  const maxW=wLife/Math.max(kmSol,.001),maxP=margin>0?dur:Math.max(30,dur*(avgP/totalDraw));
+  const estDur=Math.min(maxW,maxP,dur);
+  const trav=s?calcTraversability(s):50;
+  const totalKm=kmSol*estDur;
+
+  sM('rmT',kmSol,2);sM('rmP',avgP,0);sM('rmD',dataMB,0);sM('rmW',wLife,1);sM('rmS',sciRet,0);sM('rmDu',estDur,0);
+  sM('rmTrv',trav,0);sM('rmEf',efficiency,0);sM('rmKm',totalKm,0);
+  sG('gT',kmSol,3,'gTV',2);sG('gP',avgP,500,'gPV',0);sG('gW',wLife,30,'gWV',1);
+  updateRCh(peak,driveP,sciP,commP,avioP,heatP,sH);
+}
+
+function sM(id,v,d){const el=document.getElementById(id);if(el)el.textContent=v.toFixed(d)}
+function sG(svg,v,mx,txt,d){const c=document.querySelector(`#${svg} .gf`),t=document.getElementById(txt);if(!c||!t)return;c.style.strokeDashoffset=314.16*(1-Math.min(v/mx,1));t.textContent=v.toFixed(d)}
+
+function initRCh(){
+  const ctx=document.getElementById('rpch')?.getContext('2d');if(!ctx)return;
+  const hrs=Array.from({length:25},(_,i)=>`${i}h`);
+  rpCh=new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:hrs,
+      datasets:[
+        {label:tr('Solar (W)'),data:Array(25).fill(0),borderColor:'#ffb703',backgroundColor:'rgba(255,183,3,.06)',fill:true,tension:.4,borderWidth:2,pointRadius:0},
+        {label:tr('Consumo (W)'),data:Array(25).fill(0),borderColor:'#ff2d55',backgroundColor:'rgba(255,45,85,.06)',fill:true,tension:.2,borderWidth:2,pointRadius:0},
+        {label:tr('Batería (Wh)'),data:Array(25).fill(0),borderColor:'#00e5ff',fill:false,tension:.3,borderWidth:2,pointRadius:0,yAxisID:'y1'}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      interaction:{intersect:false,mode:'index'},
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#3a4a60',font:{size:7}}},
+        y:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#7b8faa',font:{size:8}}},
+        y1:{position:'right',grid:{display:false},ticks:{color:'#7b8faa',font:{size:8}}}
+      },
+      plugins:{legend:{labels:{color:'#7b8faa',font:{size:8},boxWidth:7}}},
+      animation:{duration:400}
+    }
+  });
+}
+function updateRCh(pk,dr,sc,cm,av,ht,sH){
+  if(!rpCh)return;const sol=[],con=[],bat=[];const b=gv('rB');let bl=b;const dH=gv('rH');
+  for(let h=0;h<=24;h++){
+    const sw=h>=4&&h<=20?pk*Math.exp(-Math.pow((h-12)/4,2)):0;
+    sol.push(Math.round(sw));
+    const isDr=h>=8&&h<8+dH;const isN=h<4||h>20;
+    con.push(Math.round(isDr?(dr+sc+cm+av):(isN?(ht+av):(sc+av+cm*.3))));
+    bl+=sw-con[h];bl=Math.max(0,Math.min(b,bl));
+    bat.push(Math.round(bl));
+  }
+  rpCh.data.datasets[0].data=sol;rpCh.data.datasets[1].data=con;rpCh.data.datasets[2].data=bat;rpCh.update();
+}
+
+// ═══════ CREW CALCULATOR ═══════
+const CP=[
+  {l:'Tamaño Tripulación',id:'cSz',mn:2,mx:8,v:4,u:'pers',s:1},
+  {l:'Duración EVA',id:'cEd',mn:1,mx:8,v:6,u:'hrs',s:.5},
+  {l:'Tasa Metabólica',id:'cMt',mn:200,mx:600,v:350,u:'W',s:25},
+  {l:'Capacidad O₂ Traje',id:'cO2c',mn:1,mx:8,v:3.6,u:'kg',s:.1},
+  {l:'Blindaje Radiación',id:'cSh',mn:0,mx:50,v:20,u:'g/cm²',s:1},
+  {l:'Efic. Reciclaje Agua',id:'cRc',mn:70,mx:98,v:93,u:'%',s:1},
+  {l:'Duración Misión',id:'cDr',mn:7,mx:500,v:180,u:'sols',s:5},
+  {l:'Potencia Hábitat',id:'cHp',mn:5,mx:40,v:15,u:'kW',s:1}
+];
+
+function initCSlid(){
+  document.getElementById('cSlid').innerHTML=CP.map(p=>`<div class="sr"><label>${tr(p.l)}</label><input type="range" id="${p.id}" min="${p.mn}" max="${p.mx}" value="${p.v}" step="${p.s}"><span class="sv" id="${p.id}V">${p.v} ${tr(p.u)}</span></div>`).join('');
+  CP.forEach(p=>{document.getElementById(p.id).addEventListener('input',function(){document.getElementById(p.id+'V').textContent=this.value+' '+tr(p.u);recalcC();recalcM();})});
+  initCCh();
+}
+
+function recalcC(){
+  const crew=gv('cSz'),evaT=gv('cEd'),met=gv('cMt'),o2c=gv('cO2c'),sh=gv('cSh'),rc=gv('cRc')/100,dur=gv('cDr'),hp=gv('cHp');
+  const mO2=met*0.00125,sLk=0.012,o2H=mO2+sLk,o2EVA=o2H*evaT,maxEVA=o2c/o2H;
+  const gcrB=0.7,shF=Math.exp(-sh/25),dD=gcrB*shF,cumD=dD*dur;
+  const gW=(2.5+2.0+0.5)*crew,nW=gW*(1-rc);
+  const dF=1.8*crew;
+  const o2Gen=0.84*crew;
+  const co2Rem=1.0*crew;
+  const h2oRec=gW*rc;
+  const n2Make=0.02*crew;
+  const thermalP=0.8+crew*0.3;
+  const eclssP=1.5+crew*0.5;
+
+  sM('cO2',o2EVA,2);sM('cEV',maxEVA,1);sM('cRd',dD,2);sM('cW',nW,1);sM('cF',dF,1);sM('cPw',hp,0);
+  sM('cOG',o2Gen,2);sM('cCR',co2Rem,2);sM('cWR',h2oRec,1);sM('cN2',n2Make,3);sM('cTh',thermalP,1);sM('cEP',eclssP,1);
+  sG('gR',cumD,1000,'gRV',0);sG('gO',o2EVA,o2c,'gOV',2);sG('gE',maxEVA,10,'gEV',1);
+  updateCCh(crew,dur,nW,dF,o2EVA,dD,hp);
+}
+
+const CR_LBL=['Agua (L/sol)','Alimento (kg/sol)','O₂ EVA (kg)','Potencia (kW)','ECLSS (kW)'],CST_LBL=['Lanzamiento','Desarrollo','Operaciones','Instrumentos'];
+function initCCh(){
+  const c1=document.getElementById('crch')?.getContext('2d');
+  if(c1)crCh=new Chart(c1,{
+    type:'bar',
+    data:{
+      labels:CR_LBL.map(tr),
+      datasets:[{label:tr('Consumo'),data:[0,0,0,0,0],backgroundColor:['rgba(168,85,247,.5)','rgba(255,183,3,.5)','rgba(0,229,255,.5)','rgba(255,45,85,.5)','rgba(59,130,246,.5)'],borderColor:['#a855f7','#ffb703','#00e5ff','#ff2d55','#3b82f6'],borderWidth:1,borderRadius:5}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#7b8faa',font:{size:8}}},y:{grid:{display:false},ticks:{color:'#7b8faa',font:{size:9}}}},plugins:{legend:{display:false}},animation:{duration:400}}
+  });
+  const c2=document.getElementById('crdch')?.getContext('2d');
+  if(c2)crdCh=new Chart(c2,{
+    type:'line',
+    data:{
+      labels:[],
+      datasets:[
+        {label:tr('Dosis Acumulada (mSv)'),data:[],borderColor:'#ff2d55',backgroundColor:'rgba(255,45,85,.06)',fill:true,tension:.3,borderWidth:2,pointRadius:0},
+        {label:tr('Límite Carrera NASA (1000 mSv)'),data:[],borderColor:'rgba(255,255,255,.15)',borderDash:[5,5],borderWidth:1,pointRadius:0}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:'rgba(255,255,255,.02)'},ticks:{color:'#3a4a60',font:{size:7}}},y:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#7b8faa',font:{size:8}}}},plugins:{legend:{labels:{color:'#7b8faa',font:{size:8},boxWidth:7}}},animation:{duration:400}}
+  });
+}
+function updateCCh(crew,dur,nW,dF,o2,dD,hp){
+  const eclssP=1.5+crew*.5;
+  if(crCh){crCh.data.datasets[0].data=[nW,dF,o2,hp,eclssP];crCh.update()}
+  if(crdCh){
+    const step=Math.max(1,Math.floor(dur/40)),lbl=[],dose=[],lim=[];
+    for(let d=0;d<=dur;d+=step){lbl.push(d);dose.push(+(dD*d).toFixed(1));lim.push(1000)}
+    crdCh.data.labels=lbl;crdCh.data.datasets[0].data=dose;crdCh.data.datasets[1].data=lim;crdCh.update();
+  }
+}
+
+// ═══════ MISSION CALCULATOR ═══════
+function recalcM(){
+  const mass=gv('rM'),dur=gv('rDu'),crew=gv('cSz'),cDur=gv('cDr');
+  const isCrew=crew>0&&cDur>7;
+  const launchCost=mass*0.08+50;
+  const devCost=350+mass*0.4+(isCrew?800:0);
+  const opsCost=(isCrew?2.5:1.2)*dur;
+  const sciCost=120+(sel?(sel.instruments.length*25):100);
+  const totalCost=launchCost+devCost+opsCost+sciCost;
+  const sciScore=sel?parseFloat(document.getElementById('rmS')?.textContent||50):50;
+  const roi=sciScore/totalCost*1000;
+
+  const solInMission=Math.min(dur,780);
+  const dist=Math.abs(225+170*Math.cos(2*Math.PI*solInMission/780)); 
+  const delay=dist*1e6/299792/60;
+  const dsnWindow=8*60;
+  const bandwidth=0.256;
+  const dataVol=bandwidth*dsnWindow*60/8/1024;
+  const cmdsPerSol=Math.floor(dsnWindow/Math.max(delay,0.1)/2);
+
+  sM('mcL',launchCost,0);sM('mcDv',devCost,0);sM('mcOp',opsCost,0);sM('mcSc',sciCost,0);sM('mcTot',totalCost,0);sM('mcROI',roi,2);
+  sM('mcDel',delay,1);sM('mcDSN',dsnWindow,0);sM('mcBw',bandwidth,3);sM('mcDist',dist,0);sM('mcVol',dataVol,2);sM('mcCmd',cmdsPerSol,0);
+
+  if(!cstCh){
+    const ctx=document.getElementById('cstch')?.getContext('2d');
+    if(ctx)cstCh=new Chart(ctx,{
+      type:'doughnut',
+      data:{labels:CST_LBL.map(tr),datasets:[{data:[0,0,0,0],backgroundColor:['rgba(0,229,255,.6)','rgba(168,85,247,.6)','rgba(0,255,163,.6)','rgba(255,183,3,.6)'],borderColor:['#00e5ff','#a855f7','#00ffa3','#ffb703'],borderWidth:1}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#7b8faa',font:{size:9},boxWidth:8,padding:10}}}}
+    });
+  }
+  if(cstCh){cstCh.data.datasets[0].data=[launchCost,devCost,opsCost,sciCost];cstCh.update();}
+
+  if(!delCh){
+    const ctx=document.getElementById('delch')?.getContext('2d');
+    if(ctx)delCh=new Chart(ctx,{
+      type:'line',
+      data:{
+        labels:[],
+        datasets:[
+          {label:tr('Retardo (min)'),data:[],borderColor:'#00e5ff',backgroundColor:'rgba(0,229,255,.06)',fill:true,tension:.4,borderWidth:2,pointRadius:0},
+          {label:tr('Distancia (Mkm)'),data:[],borderColor:'#a855f7',fill:false,tension:.4,borderWidth:2,pointRadius:0,yAxisID:'y1'}
+        ]
+      },
+      options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:'rgba(255,255,255,.02)'},ticks:{color:'#3a4a60',font:{size:7}}},y:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#7b8faa',font:{size:8}},title:{display:true,text:'min',color:'#7b8faa',font:{size:8}}},y1:{position:'right',grid:{display:false},ticks:{color:'#7b8faa',font:{size:8}},title:{display:true,text:'Mkm',color:'#7b8faa',font:{size:8}}}},plugins:{legend:{labels:{color:'#7b8faa',font:{size:8},boxWidth:7}}},animation:{duration:400}}
+    });
+  }
+  if(delCh){
+    const lbl=[],del=[],dst=[];const step=Math.max(1,Math.floor(dur/50));
+    for(let d=0;d<=dur;d+=step){
+      lbl.push(d);
+      const dd=Math.abs(225+170*Math.cos(2*Math.PI*d/780));
+      dst.push(Math.round(dd));
+      del.push(+(dd*1e6/299792/60).toFixed(1));
+    }
+    delCh.data.labels=lbl;delCh.data.datasets[0].data=del;delCh.data.datasets[1].data=dst;delCh.update();
+  }
+
+  if(sel){
+    const instruments=sel.instruments||[];
+    const samples=[
+      {name:'Roca superficial',priority:sel.rocks>20?'ALTA':'MEDIA',instrument:instruments[0]||'APXS',mass:'0.5 kg'},
+      {name:'Suelo/regolito',priority:'ALTA',instrument:instruments[1]||'Drill',mass:'0.3 kg'},
+      {name:'Núcleo perforado',priority:sel.waterProb>.3?'CRÍTICA':'ALTA',instrument:'Drill + '+instruments[2],mass:'0.8 kg'},
+      {name:'Atmósfera/gas',priority:sel.planet==='mars'?'ALTA':'MEDIA',instrument:instruments[3]||'SAM',mass:'0.01 kg'},
+      {name:'Mineral específico',priority:sel.minerals[0]?.p>60?'ALTA':'MEDIA',instrument:instruments[4]||'PIXL',mass:'0.2 kg'},
+      {name:'Biofirma potencial',priority:sel.waterProb>.4?'CRÍTICA':'BAJA',instrument:'SHERLOC',mass:'0.1 kg'}
+    ];
+    document.getElementById('sampPlan').innerHTML=`<table class="samp-tbl"><tr><th>${tr('Muestra')}</th><th>${tr('Prioridad')}</th><th>${tr('Instrumento')}</th><th>${tr('Masa')}</th></tr>${samples.map(s=>`<tr><td>${tr(s.name)}</td><td class="samp-pri" style="color:${s.priority==='CRÍTICA'?'var(--red)':s.priority==='ALTA'?'var(--amber)':'var(--dim)'}">${tr(s.priority)}</td><td style="color:var(--cyan)">${s.instrument}</td><td>${s.mass}</td></tr>`).join('')}</table>`;
+  }
+}
+
+// ═══════ NASA POWER API ═══════
+// Annual value of a NASA POWER climatology parameter: the official ANN field, else the mean of valid months
+function powerAnnual(o){
+  if(!o)return null;
+  if(typeof o.ANN==='number'&&o.ANN!==-999)return o.ANN;
+  const v=Object.entries(o).filter(([k,x])=>k!=='ANN'&&typeof x==='number'&&x!==-999).map(([,x])=>x);
+  return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;
+}
+
+async function fetchPOWER(){
+  if(!sel)return;
+  const btn=document.getElementById('pwrBtn');btn.textContent=tr('⏳ Consultando...');btn.disabled=true;
+  try{
+    const r=await fetch(`https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=ALLSKY_SFC_SW_DWN,T2M,WS10M,PRECTOTCORR,ALLSKY_SFC_UV_INDEX&community=RE&longitude=${sel.lng}&latitude=${sel.lat}&format=JSON`);
+    const d=await r.json();
+    const params=d?.properties?.parameter||{};
+    const annual=k=>powerAnnual(params[k]);
+    const solarIrr=annual('ALLSKY_SFC_SW_DWN');
+    const t2m=annual('T2M');
+    const ws=annual('WS10M');
+    const precip=annual('PRECTOTCORR');
+    const uvIdx=annual('ALLSKY_SFC_UV_INDEX');
+    document.getElementById('pwrGrid').innerHTML=`
+      <div class="tc"><div class="tv" style="color:var(--amber)">${solarIrr?.toFixed(1)||'N/A'}</div><div class="tu">kWh/m²/d</div><div class="tl" data-tr="Irradiancia">${tr('Irradiancia')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--red)">${t2m?.toFixed(1)||'N/A'}</div><div class="tu">°C</div><div class="tl" data-tr="Temp Media">${tr('Temp Media')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--cyan)">${ws?.toFixed(1)||'N/A'}</div><div class="tu">m/s</div><div class="tl" data-tr="Viento 10m">${tr('Viento 10m')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--teal)">${precip?.toFixed(2)||'N/A'}</div><div class="tu">mm/d</div><div class="tl" data-tr="Precipitación">${tr('Precipitación')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--amber)">${uvIdx?.toFixed(1)||'N/A'}</div><div class="tu">idx</div><div class="tl" data-tr="UV NASA">${tr('UV NASA')}</div></div>
+      <div class="tc"><div class="tv" style="color:var(--purple)">OK</div><div class="tu">status</div><div class="tl">POWER API</div></div>`;
+    btn.textContent=tr('✅ Datos cargados');
+  }catch(e){
+    btn.textContent=tr('❌ Error');
+    document.getElementById('pwrGrid').innerHTML=`<p style="color:var(--red);font-size:.65rem">${tf('Error de red o CORS en NASA POWER: {m}',{m:e.message})}</p>`;
+  }
+  setTimeout(()=>{btn.textContent=tr('📡 Consultar NASA POWER API');btn.disabled=false},3000);
+}
+
+// ═══════ NASA LIVE APIs ═══════
+let nasaLoaded=false;
+async function fetchNASA(){
+  nasaLoaded=true;
+  const k=nK||'DEMO_KEY';
+  fetchAPOD(k);
+  fetchEONET();
+  fetchNEO(k);
+  fetchDONKI(k);
+}
+
+async function fetchAPOD(k){
+  try{
+    const r=await fetch(`https://api.nasa.gov/planetary/apod?api_key=${k}`);
+    if(r.status===429){throw new Error(tr('Límite de solicitudes NASA excedido (429). Configura tu propia API Key en 🔑 API Keys.'));}
+    const d=await r.json();
+    document.getElementById('apodC').innerHTML=`<h4 style="font-size:.75rem;margin-bottom:3px">${d.title||''}</h4><p style="font-size:.6rem;color:var(--muted);line-height:1.4;max-height:70px;overflow:auto">${d.explanation||''}</p>${d.url?`<img class="ai" src="${d.url}" alt="${d.title}">`:''}`;
+    document.getElementById('dN').className='sd2 ok';
+  }catch(e){
+    document.getElementById('apodC').innerHTML=`<p style="color:var(--amber);font-size:.65rem">${e.message}</p>`;
+  }
+}
+
+async function fetchEONET(){
+  try{
+    const r=await fetch('https://eonet.gsfc.nasa.gov/api/v3/events?limit=12&status=open');
+    const d=await r.json();
+    if(d.events?.length)document.getElementById('eonetL').innerHTML=d.events.map(e=>{const c=e.categories?.[0]?.title||'';const cl={Wildfires:'var(--red)',Volcanoes:'var(--amber)','Severe Storms':'var(--purple)','Sea and Lake Ice':'var(--cyan)'};return`<div class="ei"><div class="ed" style="background:${cl[c]||'var(--muted)'}"></div><div><div class="et">${e.title}</div><div class="edt">${c} · ${e.geometry?.[0]?.date?.substring(0,10)||''}</div></div></div>`}).join('');
+    else document.getElementById('eonetL').innerHTML=`<p style="color:var(--dim);font-size:.65rem">${tr('Sin eventos.')}</p>`;
+  }catch(e){document.getElementById('eonetL').innerHTML=`<p style="color:var(--red);font-size:.65rem">${e.message}</p>`}
+}
+
+async function fetchNEO(k){
+  try{
+    const t=new Date().toISOString().split('T')[0];
+    const r=await fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${t}&end_date=${t}&api_key=${k}`);
+    if(r.status===429){throw new Error(tr('Límite DEMO_KEY excedido en NEO.'));}
+    const d=await r.json();
+    const ns=d.near_earth_objects?.[t]||[];
+    if(ns.length)document.getElementById('neoC').innerHTML=`<div style="font-size:.62rem;color:var(--muted);margin-bottom:5px">${tf('{n} objetos hoy',{n:ns.length})}</div>`+ns.slice(0,8).map(n=>{const dist=parseFloat(n.close_approach_data?.[0]?.miss_distance?.lunar||0).toFixed(1);const diam=((n.estimated_diameter?.meters?.estimated_diameter_min||0)+(n.estimated_diameter?.meters?.estimated_diameter_max||0))/2;return`<div class="nr"><span class="nn">${n.is_potentially_hazardous_asteroid?'⚠️ ':''}${n.name}</span><span class="nd">${dist} LD</span><span class="ns">${diam.toFixed(0)}m</span></div>`}).join('');
+    else document.getElementById('neoC').innerHTML=`<p style="color:var(--dim);font-size:.65rem">${tr('Sin NEOs.')}</p>`;
+  }catch(e){document.getElementById('neoC').innerHTML=`<p style="color:var(--amber);font-size:.65rem">${e.message}</p>`}
+}
+
+async function fetchDONKI(k){
+  try{
+    const end=new Date().toISOString().split('T')[0];
+    const start=new Date(Date.now()-7*864e5).toISOString().split('T')[0];
+    const r=await fetch(`https://api.nasa.gov/DONKI/FLR?startDate=${start}&endDate=${end}&api_key=${k}`);
+    if(r.status===429){throw new Error(tr('Límite DEMO_KEY excedido en DONKI.'));}
+    const d=await r.json();
+    if(d.length)document.getElementById('donkiC').innerHTML=`<div style="font-size:.62rem;color:var(--muted);margin-bottom:5px">${tf('{n} eventos (7d)',{n:d.length})}</div>`+d.slice(-6).map(f=>`<div class="ei"><div class="ed" style="background:${f.classType?.startsWith('X')?'var(--red)':f.classType?.startsWith('M')?'var(--amber)':'var(--teal)'}"></div><div><div class="et">${tf('Fulguración {c}',{c:f.classType||'N/A'})}</div><div class="edt">${f.beginTime?.substring(0,16)||''}</div></div></div>`).join('');
+    else document.getElementById('donkiC').innerHTML=`<p style="color:var(--dim);font-size:.65rem">${tr('Sin fulguraciones.')}</p>`;
+  }catch(e){document.getElementById('donkiC').innerHTML=`<p style="color:var(--amber);font-size:.65rem">${e.message}</p>`}
+}
+
+// ═══════ GEMINI CHAT ═══════
+async function sendChat(){
+  const inp=document.getElementById('chI');const msg=inp.value.trim();if(!msg)return;inp.value='';
+  appChat(msg,'user');
+  if(!gK){appChat(tr('⚠️ Configura tu API Key de Gemini (🔑 API Keys).'),'ai');return}
+  const s=sel;const afi=s?calcAFI(s):null;
+  const ctx=s?`Sitio: ${s.name} (${s.country}), análogo a ${s.planet==='mars'?'Marte':'Luna'}. Temp:${s.temp}°C, Pres:${s.pres}hPa, Viento:${s.wind}km/h, Hum:${s.hum}%, UV:${s.uv}, Alt:${s.alt}m, Pendiente:${s.slope}°, Rocas:${s.rocks}%, Prob.agua:${s.waterProb}. AFI:${afi?.total}/100. Equiv:${s.equiv}. Rover: masa ${gv('rM')}kg, potencia ~${document.getElementById('rmP')?.textContent||'?'}W, travesía ~${document.getElementById('rmT')?.textContent||'?'}km/sol. Tripulación: ${gv('cSz')} personas, ${gv('cDr')} sols.`:'Sin sitio seleccionado.';
+  try{
+    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${gK}`,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({system_instruction:{parts:[{text:`Eres el copiloto científico de NOVA GENESIS para NASA Space Apps Challenge. ${LANG==='en'?'Answer in English, concise and technical.':'Responde en español, conciso y técnico.'} ${ctx}`}]},contents:[{parts:[{text:msg}]}],generationConfig:{maxOutputTokens:600,temperature:.7}})});
+    const d=await r.json();appChat(d?.candidates?.[0]?.content?.parts?.[0]?.text||tr('❌ Sin respuesta de Gemini.'),'ai');
+  }catch(e){appChat(tr('❌ Error de conexión con Gemini: ')+e.message,'ai')}
+}
+function appChat(t,tp){const w=document.getElementById('chMs');const d=document.createElement('div');d.className='cm '+tp;d.textContent=t;w.appendChild(d);w.scrollTop=w.scrollHeight}
+
+// ═══════ EXPORT ═══════
+function exportAll(){
+  const s=sel;const afi=s?calcAFI(s):null;
+  const data={app:'NOVA GENESIS',version:'3.1',challenge:'NASA Space Apps Challenge',timestamp:new Date().toISOString(),
+    language:LANG,site:s?{name:tr(s.name),country:tr(s.country),lat:s.lat,lng:s.lng,planet:s.planet,climate:{temp:s.temp,pressure:s.pres,wind:s.wind,humidity:s.hum,uv:s.uv,altitude:s.alt},terrain:{slope:s.slope,rockAbundance:s.rocks,soil:tr(s.soil),waterProbability:s.waterProb},minerals:s.minerals.map(m=>({name:tr(m.n),pct:m.p})),equivalence:siteEquiv(s),instruments:s.instruments,analogueFidelityIndex:afi}:null,
+    rover:{mass:gv('rM'),solarArea:gv('rS'),efficiency:gv('rE'),battery:gv('rB'),dustOpacity:gv('rD'),driveHours:gv('rH'),latitude:gv('rL'),missionDuration:gv('rDu'),results:{traverseKmSol:document.getElementById('rmT')?.textContent,powerW:document.getElementById('rmP')?.textContent,dataMBSol:document.getElementById('rmD')?.textContent,wheelLifeKm:document.getElementById('rmW')?.textContent,scienceScore:document.getElementById('rmS')?.textContent,traversability:document.getElementById('rmTrv')?.textContent,efficiency:document.getElementById('rmEf')?.textContent,totalDistanceKm:document.getElementById('rmKm')?.textContent}},
+    crew:{size:gv('cSz'),evaDuration:gv('cEd'),metabolicRate:gv('cMt'),o2Capacity:gv('cO2c'),shielding:gv('cSh'),waterRecycling:gv('cRc'),missionDuration:gv('cDr'),habitatPower:gv('cHp'),results:{o2PerEVA:document.getElementById('cO2')?.textContent,maxEVA:document.getElementById('cEV')?.textContent,radiationMsvSol:document.getElementById('cRd')?.textContent,waterLSol:document.getElementById('cW')?.textContent,foodKgSol:document.getElementById('cF')?.textContent,eclss:{o2Generated:document.getElementById('cOG')?.textContent,co2Removed:document.getElementById('cCR')?.textContent,waterRecycled:document.getElementById('cWR')?.textContent,n2Makeup:document.getElementById('cN2')?.textContent}}},
+    mission:{costs:{launch:document.getElementById('mcL')?.textContent,development:document.getElementById('mcDv')?.textContent,operations:document.getElementById('mcOp')?.textContent,instruments:document.getElementById('mcSc')?.textContent,total:document.getElementById('mcTot')?.textContent},communication:{delayMin:document.getElementById('mcDel')?.textContent,dsnWindowMin:document.getElementById('mcDSN')?.textContent,bandwidthMbps:document.getElementById('mcBw')?.textContent,distanceMkm:document.getElementById('mcDist')?.textContent}}
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`NOVA_GENESIS_${s?.name?.replace(/\s/g,'_')||'mission'}_${Date.now()}.json`;a.click();URL.revokeObjectURL(url);
+}
+
+// ═══════ CLOCK (Hora de Paraguay - PYT / America/Asuncion) ═══════
+function startClk(){
+  const clkEl = document.getElementById('clk');
+  const mk = () => new Intl.DateTimeFormat(LANG==='en'?'en-GB':'es-PY', {
+    timeZone: 'America/Asuncion',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
+  let fmt = mk(), fl = LANG;
+  const update = () => {
+    if (fl !== LANG) { fmt = mk(); fl = LANG; }
+    clkEl.textContent = `${fmt.format(new Date())} PYT`;
+  };
+  update();
+  setInterval(update, 1000);
+}
+</script>
+
+
+<script async="" src="./novagenesis 2.0_files/ar" data-netlify-deploy-id="6af9dcf43bad0bc5676d7a1d" data-netlify-site-id="041e4c07-2e7f-4255-a19f-46a588c7fc6d" data-agent-runner-id="6af9db3bdf5a0ff9a03c8b0b"></script>
+<script async="" src="./novagenesis 2.0_files/hud" data-nf-variant="public" data-netlify-site-id="041e4c07-2e7f-4255-a19f-46a588c7fc6d" data-app-host="app.netlify.com" data-account-tier="free"></script>
+<iframe id="nl-badge-frame" title="Powered by Netlify" style="position: fixed; bottom: 0px; right: 0px; border: 0px; margin: 0px; padding: 0px; background: transparent; color-scheme: dark; z-index: 2147483645; width: 197px; height: 64px; clip-path: path(&quot;M 3 3 H 184 V 51 H 3 Z&quot;);" data-nl-ready="1" src="./novagenesis 2.0_files/saved_resource.html"></iframe></body></html>
